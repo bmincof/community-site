@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.UserDao;
-import dto.UserDto;
-import dto.UserRegisterDto;
+import dto.UserRegisterRequest;
+import entity.User;
 
 public class UserRegisterService {
 
@@ -17,20 +17,15 @@ public class UserRegisterService {
 		this.userDao = userDao;
 	}
 	
-	public void regist(UserRegisterDto regReq) {
-		UserDto user = userDao.selectByEmail(regReq.getEmail());
+	public void regist(UserRegisterRequest regReq) {
+		User user = userDao.selectByEmail(regReq.getEmail());
 		
 		if (user != null) {
 			return;
 		}
 		
-		UserDto newUser = new UserDto();
-		newUser.setEmail(regReq.getEmail());
-		newUser.setPassword(regReq.getPassword());
-		newUser.setName(regReq.getName());
-		newUser.setNickname(regReq.getNickname());
-		newUser.setPhoneNumber(regReq.getPhoneNumber());
-		newUser.setRegisterDate(LocalDateTime.now());
+		User newUser = new User(regReq.getEmail(), regReq.getPassword(), regReq.getName(),
+				regReq.getNickname(), regReq.getPhoneNumber(),regReq.getType(),LocalDateTime.now());
 		
 		userDao.insert(newUser);
 	}

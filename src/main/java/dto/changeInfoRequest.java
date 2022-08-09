@@ -1,17 +1,13 @@
 package dto;
 
-public class UserRegisterDto {
-	
+public class changeInfoRequest {
+
 	private String email;
 	private String password;
-	private String confirmPassword;
 	private String name;
 	private String nickname;
 	private String phoneNumber;
 	
-	public UserRegisterDto() {};
-
-	//email
 	public String getEmail() {
 		return email;
 	}
@@ -20,7 +16,6 @@ public class UserRegisterDto {
 		this.email = email;
 	}
 	
-	//password
 	public String getPassword() {
 		return password;
 	}
@@ -29,16 +24,6 @@ public class UserRegisterDto {
 		this.password = password;
 	}
 	
-	//confirmPassword
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-	
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-	
-	//name
 	public String getName() {
 		return name;
 	}
@@ -47,16 +32,14 @@ public class UserRegisterDto {
 		this.name = name;
 	}
 	
-	//nickname
 	public String getNickname() {
 		return nickname;
 	}
-
+	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-
-	//phoneNumber
+	
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -64,10 +47,4 @@ public class UserRegisterDto {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
-	//others
-	public boolean isPasswordEqualToConfirmPassword() {
-		return password.equals(confirmPassword);
-	}
-	
 }

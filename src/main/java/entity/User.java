@@ -1,8 +1,8 @@
-package dto;
+package entity;
 
 import java.time.LocalDateTime;
 
-public class UserDto {
+public class User {
 
 	private long userId;	// serial number
 	private String email; // for login
@@ -10,61 +10,55 @@ public class UserDto {
 	private String name;
 	private String nickname;
 	private String phoneNumber;
+	private String type;
 	private LocalDateTime registerDate;
-
-	//userId
+	
+	public User(String email, String password, String name, String nickname,
+			String phoneNumber, String type, LocalDateTime registerDate) {
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.nickname = nickname;
+		this.phoneNumber = phoneNumber;
+		this.type = type;
+		this.registerDate = registerDate;
+	}
+	
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+	
 	public long getUserId() {
 		return userId;
 	}
-
-	//email
+	
 	public String getEmail() {
 		return email;
 	}
 	
-	//password
 	public String getPassword() {
 		return password;
 	}
 	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	//name
 	public String getName() {
 		return name;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	//nickname
 	public String getNickname() {
 		return nickname;
 	}
 	
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	//phoneNumber
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 	
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public String getType() {
+		return type;
 	}
 	
-	//registerDate
 	public LocalDateTime getRegisterDate() {
 		return registerDate;
 	}
 	
-	public void setRegisterDate(LocalDateTime registerDate) {
-		this.registerDate = registerDate;
-	}
-	
+		
 }

@@ -1,25 +1,24 @@
 package dto;
 
-import java.time.LocalDateTime;
-
-public class UserDto {
-
-	private long userId;	// serial number
-	private String email; // for login
+public class UserRegisterRequest {
+	
+	private String email;
 	private String password;
+	private String confirmPassword;
 	private String name;
 	private String nickname;
 	private String phoneNumber;
-	private LocalDateTime registerDate;
-
-	//userId
-	public long getUserId() {
-		return userId;
-	}
+	private String type;			//null -> 일반 유저 , admin -> 관리자
+	
+	public UserRegisterRequest() {};
 
 	//email
 	public String getEmail() {
 		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	//password
@@ -30,7 +29,16 @@ public class UserDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
+	//confirmPassword
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	
 	//name
 	public String getName() {
 		return name;
@@ -44,7 +52,7 @@ public class UserDto {
 	public String getNickname() {
 		return nickname;
 	}
-	
+
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
@@ -58,13 +66,18 @@ public class UserDto {
 		this.phoneNumber = phoneNumber;
 	}
 	
-	//registerDate
-	public LocalDateTime getRegisterDate() {
-		return registerDate;
+	//type
+	public String getType() {
+		return type;
 	}
 	
-	public void setRegisterDate(LocalDateTime registerDate) {
-		this.registerDate = registerDate;
+	public void setType(String type) {
+		this.type = type;
+	}
+		
+	//other logic
+	public boolean isPasswordEqualToConfirmPassword() {
+		return password.equals(confirmPassword);
 	}
 	
 }

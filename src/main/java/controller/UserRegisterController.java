@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import dto.UserRegisterDto;
+import dto.UserRegisterRequest;
 import service.UserRegisterService;
 
 @Controller
@@ -25,7 +25,7 @@ public class UserRegisterController {
 	}
 	
 	@PostMapping("/user/registerPro")
-	public String registerPro(UserRegisterDto userRegisterDto) {
+	public String registerPro(UserRegisterRequest userRegisterDto) {
 		
 		userRegisterService.regist(userRegisterDto);
 		return "redirect:/user/list";

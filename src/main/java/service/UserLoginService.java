@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.UserDao;
 import dto.LoginUserDto;
-import dto.UserDto;
+import entity.User;
 
 public class UserLoginService {
 
@@ -16,7 +16,7 @@ public class UserLoginService {
 	}
 	
 	public LoginUserDto login(String email, String password) {
-		UserDto user = userDao.selectByEmail(email);
+		User user = userDao.selectByEmail(email);
 		if (user == null || !user.getPassword().equals(password)) {
 			return null;
 		}

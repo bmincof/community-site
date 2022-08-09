@@ -1,7 +1,7 @@
 package service;
 
 import dao.UserDao;
-import dto.UserDto;
+import entity.User;
 
 public class UserFindInfoService {
 
@@ -11,8 +11,9 @@ public class UserFindInfoService {
 		this.userDao = userDao;
 	}
 	
+	/* findEmailRequest 만들고 검증 후 넘기기 */
 	public String FindEmail(String name, String phoneNumber) {
-		UserDto user = userDao.selectByPhoneNumber(phoneNumber);
+		User user = userDao.selectByPhoneNumber(phoneNumber);
 		if (user != null && user.getName().equals(name)) {
 			return user.getEmail();
 		} else {
@@ -21,7 +22,7 @@ public class UserFindInfoService {
 	}
 	
 	public String FindPassword(String email, String name, String phoneNumber) {
-		UserDto user = userDao.selectByEmail(email);
+		User user = userDao.selectByEmail(email);
 		if (user != null && user.getPhoneNumber().equals(phoneNumber) && user.getName().equals(name)) {
 			return user.getPassword();
 		} else {

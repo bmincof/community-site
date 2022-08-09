@@ -19,36 +19,34 @@ public class UserInfoChangeController {
 	}
 	
 	//changePassword
-	@RequestMapping("/user/changePassword/{id}")
-	public String changePasswordForm(@PathVariable("id") long userId) {
-		//form to get new password
-		return "user/changePasswordForm";
-	}
 	
-	@PostMapping("/user/changePasswordPro/{id}")
-	public String changePasswordPro(@PathVariable("id") long userId,
+	@PostMapping("/user/changePassword/{id}")
+	public String changePasswordForm(@PathVariable("id") long userId,
 							@RequestParam(value="newPassword") String newPassword,
 							@RequestParam(value="confirmNewPassword") String confirmNewPassword) {
 		if (newPassword.equals(confirmNewPassword)) {
 			userInfoChangeService.changePassword(userId, newPassword);
 			return "redirect:/user/list";
 		}
-		return "redirect:/user/changePasswordPro"+userId;
-	}
-	//changeInfo
-	@RequestMapping("/user/changeInfo/{id}")
-	public String changeInfoForm(@PathVariable("id") long userId) {
-		//form to get new info
-		return "user/changeInfoForm";
+		return "redirect:/user/changePassword/"+userId;
 	}
 	
-	@PostMapping("/user/changeInfoPro/{id}")
-	public String changeInfoPro(@PathVariable("id") long userId,
-						@RequestParam(value="newNickname") String newNickname,
-						@RequestParam(value="newPhoneNumber") String newPhoneNumber) {
+	//changeNickname
+	
+	@PostMapping("/user/changeNickname/{id}")
+	public String changeNickname(@PathVariable("id") long userId,
+						@RequestParam(value="newNickname") String newNickname) {
 		
-		userInfoChangeService.changeInfo(userId, newNickname, newPhoneNumber);
+		userInfoChangeService.changeNickname(userId, newNickname);
 		return "redirect:/user/list";
 	}
+	
+	@PostMapping("/user/changePhoneNumber/{id}")
+	public String changePhoneNumber(@PathVariable("id") long userId,
+						@RequestParam(value="newPhoneNumber") String newPhoneNumber) {
+		userInfoChangeService.changePhoneNumber(userId, newPhoneNumber);
+		return "redirect:/user/list";
+	}
+	
 	
 }

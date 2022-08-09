@@ -1,18 +1,14 @@
 package controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import dao.UserDao;
-import dto.UserDto;
+import entity.User;
 
 @Controller
 public class UserController {
@@ -59,7 +55,7 @@ public class UserController {
 	
 	@GetMapping("/user/list")
 	public String updateTest(Model model) {
-		List<UserDto> users = userDao.selectAll();
+		List<User> users = userDao.selectAll();
 		model.addAttribute("users",users);
 		return "user/list";
 	}
