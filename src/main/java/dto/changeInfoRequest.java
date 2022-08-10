@@ -1,12 +1,16 @@
 package dto;
 
-public class changeInfoRequest {
+public class ChangeInfoRequest {
 
 	private String email;
 	private String password;
 	private String name;
 	private String nickname;
 	private String phoneNumber;
+	
+	public ChangeInfoRequest() {
+		
+	}
 	
 	public String getEmail() {
 		return email;

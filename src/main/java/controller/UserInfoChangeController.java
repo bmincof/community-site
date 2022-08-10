@@ -20,8 +20,8 @@ public class UserInfoChangeController {
 	
 	//changePassword
 	
-	@PostMapping("/user/changePassword/{id}")
-	public String changePasswordForm(@PathVariable("id") long userId,
+	@RequestMapping("/user/changePasswordPro/{id}")
+	public String changePassword(@PathVariable("id") long userId,
 							@RequestParam(value="newPassword") String newPassword,
 							@RequestParam(value="confirmNewPassword") String confirmNewPassword) {
 		if (newPassword.equals(confirmNewPassword)) {
@@ -29,6 +29,11 @@ public class UserInfoChangeController {
 			return "redirect:/user/list";
 		}
 		return "redirect:/user/changePassword/"+userId;
+	}
+	
+	@RequestMapping("/user/changePassword/{id}")
+	public String changePasswordForm(@PathVariable("id") long userId) {
+		return "user/changePasswordForm";
 	}
 	
 	//changeNickname

@@ -38,6 +38,7 @@ public class UserDao {
 						rs.getString("TYPE"),
 						rs.getTimestamp("REGDATE").toLocalDateTime()
 						);
+				user.setUserId(rs.getLong("USERID"));
 				return user;
 			}
 		};
