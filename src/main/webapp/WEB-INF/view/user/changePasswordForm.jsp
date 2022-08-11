@@ -7,7 +7,7 @@
 	<title>회원 비밀번호 변경</title>
 </head>
 <body>
-	<form action="../changePasswordPro/${id }" method="post">
+	<form action="changePassword" method="post">
 		새로운 비밀번호 : <input type="text" name="newPassword"><br>
 		비밀번호 확인 : <input type="text" name="confirmNewPassword"><br>
 		<input type="submit" value="수정">

@@ -67,8 +67,8 @@ public class UserController {
 //	}
 //	
 	
-	@RequestMapping("/user/userPage")
+	@RequestMapping("/user/myPage")
 	public String userPage() {
-		return "user/userPage";
+		return "user/myPage";
 	}
 }

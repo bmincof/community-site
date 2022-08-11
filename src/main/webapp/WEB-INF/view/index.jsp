@@ -19,7 +19,7 @@
 		<c:if test="${!empty loginUserInfo }">
 			${loginUserInfo.nickname }님, 환영합니다!
 			<div>
-				<a href="<c:url value="/user/userPage" />" >회원정보 관리</a>
+				<a href="<c:url value="/user/myPage" />" >회원정보 관리</a>
 				<a href="<c:url value="/user/logout" />" >로그아웃</a>	
 			</div>
 		</c:if>

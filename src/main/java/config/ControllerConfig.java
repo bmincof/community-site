@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import controller.UserController;
+import controller.UserFindInfoController;
 import controller.UserInfoChangeController;
 import controller.UserLoginController;
 import controller.UserRegisterController;
 import dao.UserDao;
+import service.UserFindInfoService;
 import service.UserInfoChangeService;
 import service.UserLoginService;
 import service.UserRegisterService;
@@ -24,6 +26,8 @@ public class ControllerConfig {
 	private UserRegisterService userRegisterService;
 	@Autowired
 	private UserLoginService userLoginService;
+	@Autowired
+	private UserFindInfoService userFindInfoService;
 	
 	@Bean
 	public UserController userController() {
@@ -50,6 +54,13 @@ public class ControllerConfig {
 	public UserLoginController userLoginController() {
 		UserLoginController controller = new UserLoginController();
 		controller.setUserLoginService(userLoginService);
+		return controller;
+	}
+	
+	@Bean
+	public UserFindInfoController userFindInfoController() {
+		UserFindInfoController controller = new UserFindInfoController();
+		controller.setUserFindInfoService(userFindInfoService);
 		return controller;
 	}
 	

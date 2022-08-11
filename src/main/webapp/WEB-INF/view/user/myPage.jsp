@@ -14,8 +14,10 @@
 		</c:if>
 		
 		<c:if test="${!empty loginUserInfo }">
-			<a href="<c:url value="/user/changeInfo/${loginUserInfo.userId }" />" >회원정보 변경</a>
-			<a href="<c:url value="/user/changePassword/${loginUserInfo.userId }" />" >비밀번호 변경</a>	
+			${loginUserInfo.nickname } 님의 마이페이지<br>
+			<a href="<c:url value="/user/changePassword" />" >비밀번호 변경</a><br>
+			<a href="<c:url value="/user/changeNickname" />" >닉네임 변경</a><br>
+			<a href="<c:url value="/user/changePhoneNumber" />" >전화번호 변경</a><br>
 		</c:if>
 	</div>
 </body>

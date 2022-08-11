@@ -1,10 +1,16 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import dao.UserDao;
 import entity.User;
 
 public class UserFindInfoService {
 
+	@Autowired
 	private UserDao userDao;
 	
 	public void setUserDao(UserDao userDao) {
@@ -12,16 +18,21 @@ public class UserFindInfoService {
 	}
 	
 	/* findEmailRequest 만들고 검증 후 넘기기 */
-	public String FindEmail(String name, String phoneNumber) {
-		User user = userDao.selectByPhoneNumber(phoneNumber);
-		if (user != null && user.getName().equals(name)) {
-			return user.getEmail();
+	public List<String> findEmail(String name, String phoneNumber) {
+		List<User> users = userDao.selectByPhoneNumber(phoneNumber);
+		List<String> result = new ArrayList<String>();
+		if (users != null) {
+			for(User user : users) {
+				if(user.getName().equals(name)) result.add(user.getEmail());
+			}
+			return result;
 		} else {
-			return null;
+			return result;
 		}
 	}
 	
-	public String FindPassword(String email, String name, String phoneNumber) {
+	
+	public String findPassword(String email, String name, String phoneNumber) {
 		User user = userDao.selectByEmail(email);
 		if (user != null && user.getPhoneNumber().equals(phoneNumber) && user.getName().equals(name)) {
 			return user.getPassword();

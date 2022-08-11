@@ -1,11 +1,14 @@
 package controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dto.LoginUserDto;
 import service.UserInfoChangeService;
 
 @Controller
@@ -18,39 +21,60 @@ public class UserInfoChangeController {
 		this.userInfoChangeService = userInfoChangeService;
 	}
 	
-	//changePassword
+	//session get하고 user select하는 과정 중복
 	
-	@RequestMapping("/user/changePasswordPro/{id}")
-	public String changePassword(@PathVariable("id") long userId,
+	//changePassword
+	@GetMapping("/user/changePassword")
+	public String changePasswordForm() {
+		return "user/changePasswordForm";
+	}
+		
+	@PostMapping("/user/changePassword")
+	public String changePassword(HttpServletRequest req,
 							@RequestParam(value="newPassword") String newPassword,
 							@RequestParam(value="confirmNewPassword") String confirmNewPassword) {
 		if (newPassword.equals(confirmNewPassword)) {
+			LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+			long userId = userInfo.getUserId();
 			userInfoChangeService.changePassword(userId, newPassword);
-			return "redirect:/user/list";
+			return "redirect:/user/myPage";
 		}
-		return "redirect:/user/changePassword/"+userId;
-	}
-	
-	@RequestMapping("/user/changePassword/{id}")
-	public String changePasswordForm(@PathVariable("id") long userId) {
-		return "user/changePasswordForm";
+		return "redirect:/user/changePassword";
 	}
 	
 	//changeNickname
 	
-	@PostMapping("/user/changeNickname/{id}")
-	public String changeNickname(@PathVariable("id") long userId,
-						@RequestParam(value="newNickname") String newNickname) {
-		
-		userInfoChangeService.changeNickname(userId, newNickname);
-		return "redirect:/user/list";
+	@GetMapping("/user/changeNickname")
+	public String changeNicknameForm() {
+		return "user/changeNicknameForm";
 	}
 	
-	@PostMapping("/user/changePhoneNumber/{id}")
-	public String changePhoneNumber(@PathVariable("id") long userId,
+	@PostMapping("/user/changeNickname")
+	public String changeNickname(HttpServletRequest req,
+						@RequestParam(value="newNickname") String newNickname) {
+		
+		// DB에 새로운 닉네임 업데이트
+		LoginUserDto befInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+		long userId = befInfo.getUserId();
+		userInfoChangeService.changeNickname(userId, newNickname);
+		
+		// 세션 닉네임 정보 업데이트 -> 추후 수정 필요할 수도
+		LoginUserDto aftInfo = new LoginUserDto(userId, befInfo.getEmail(), newNickname);
+		req.getSession().setAttribute("loginUserInfo", aftInfo);
+		return "redirect:/user/myPage";
+	}
+	
+	@GetMapping("/user/changePhoneNumber")
+	public String changePhoneNumberForm() {
+		return "user/changePhoneNumberForm";
+	}
+	
+	@PostMapping("/user/changePhoneNumber")
+	public String changePhoneNumber(HttpServletRequest req,
 						@RequestParam(value="newPhoneNumber") String newPhoneNumber) {
+		long userId = ((LoginUserDto) req.getSession().getAttribute("loginUserInfo")).getUserId();
 		userInfoChangeService.changePhoneNumber(userId, newPhoneNumber);
-		return "redirect:/user/list";
+		return "redirect:/user/myPage";
 	}
 	
 	

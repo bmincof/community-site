@@ -82,8 +82,12 @@ public class UserDao {
 	
 	public User selectById(long userId) {
 		String sql = "select * from USER where USERID = ?";
-		User result = jdbcTemplate.queryForObject(sql, userMapper, userId);
-		return result == null ? null : result;
+		try {
+			User result = jdbcTemplate.queryForObject(sql, userMapper, userId);
+			return result;
+		} catch (EmptyResultDataAccessException ex) {
+			return null;
+		}
 	}
 	
 	public User selectByEmail(String email) {
@@ -96,10 +100,14 @@ public class UserDao {
 		}
 	}
 	
-	public User selectByPhoneNumber(String phoneNumber) {
+	public List<User> selectByPhoneNumber(String phoneNumber) {
 		String sql = "select * from USER where PHONENUMBER = ?";
-		User result = jdbcTemplate.queryForObject(sql, userMapper, phoneNumber);
-		return result == null ? null : result;
+		try {
+			List<User> result = jdbcTemplate.query(sql, userMapper, phoneNumber);
+			return result;
+		} catch (EmptyResultDataAccessException ex) {
+			return null;
+		}
 	}
 	
 	public List<User> selectAll() {

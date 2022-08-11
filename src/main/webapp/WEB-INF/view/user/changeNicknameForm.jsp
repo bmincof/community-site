@@ -7,9 +7,8 @@
 	<title>회원 정보 수정</title>
 </head>
 <body>
-	<form action="../changeInfoPro/${id }" method="post">
+	<form action="changeNickname" method="post">
 		새로운 닉네임 : <input type="text" name="newNickname"><br>
-		새로운 전화번호 : <input type="text" name="newPhoneNumber"><br>
 		<input type="submit" value="수정">
 	</form>
 </body>

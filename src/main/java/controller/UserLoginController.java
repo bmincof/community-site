@@ -3,7 +3,6 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.validator.cfg.context.ReturnValueConstraintMappingContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,6 @@ public class UserLoginController {
 		HttpSession session = req.getSession();
 	
 		LoginUserDto loginUserInfo = userLoginService.login(loginReq.getEmail(), loginReq.getPassword());
-		
 		if (loginUserInfo != null) {
 			session.setAttribute("loginUserInfo", loginUserInfo);
 			return "redirect:/";
