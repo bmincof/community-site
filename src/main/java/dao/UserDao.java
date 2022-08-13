@@ -118,9 +118,9 @@ public class UserDao {
 	
 	// DELETE
 	
-	public void deleteById(long userId) {
+	public void delete(User user) {
 		String sql = "delete from USER where USERID = ?";
-		jdbcTemplate.update(sql, userId);
+		jdbcTemplate.update(sql, user.getUserId());
 	}
 	
 }

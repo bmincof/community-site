@@ -10,13 +10,13 @@ import dto.LoginUserDto;
 @Controller
 public class UserManageController {
 
-	@PostMapping("/admin/userList")
-	public String showUserList(HttpServletRequest req) {
-		LoginUserDto user = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
-		if(user.isAdmin()) {
-			return "user/userList";
-		} else {
-			return "redirect:/"; 
-		}
-	}
+//	@PostMapping("/admin/userList")
+//	public String showUserList(HttpServletRequest req) {
+//		LoginUserDto user = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+//		if(user.isAdmin()) {
+//			return "user/userList";
+//		} else {
+//			return "redirect:/"; 
+//		}
+//	}
 }

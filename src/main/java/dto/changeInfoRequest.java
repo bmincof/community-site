@@ -1,11 +1,27 @@
 package dto;
 
-public class ChangeInfoRequest {
+import javax.validation.constraints.Max;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+public class ChangeInfoRequest {
+	
+	@NotBlank
+	@Email
 	private String email;
+	
+	@NotBlank
 	private String password;
+	
+	@NotBlank
 	private String name;
+	
+	@NotBlank
+	@Max(10)
 	private String nickname;
+	
+	@NotBlank
 	private String phoneNumber;
 	
 	public ChangeInfoRequest() {

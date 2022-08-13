@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.LoginUserDto;
+import exception.UserNotFoundException;
 import service.UserInfoChangeService;
 
 @Controller
@@ -34,10 +35,15 @@ public class UserInfoChangeController {
 							@RequestParam(value="newPassword") String newPassword,
 							@RequestParam(value="confirmNewPassword") String confirmNewPassword) {
 		if (newPassword.equals(confirmNewPassword)) {
-			LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
-			long userId = userInfo.getUserId();
-			userInfoChangeService.changePassword(userId, newPassword);
-			return "redirect:/user/myPage";
+			try {
+				LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+				long userId = userInfo.getUserId();
+				userInfoChangeService.changePassword(userId, newPassword);
+				return "redirect:/user/myPage";
+			} catch(UserNotFoundException e) {
+				return "user/changePasswordForm";
+			}
+			
 		}
 		return "redirect:/user/changePassword";
 	}
@@ -54,14 +60,18 @@ public class UserInfoChangeController {
 						@RequestParam(value="newNickname") String newNickname) {
 		
 		// DB에 새로운 닉네임 업데이트
-		LoginUserDto befInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
-		long userId = befInfo.getUserId();
-		userInfoChangeService.changeNickname(userId, newNickname);
-		
-		// 세션 닉네임 정보 업데이트 -> 추후 수정 필요할 수도
-		LoginUserDto aftInfo = new LoginUserDto(userId, befInfo.getEmail(), newNickname);
-		req.getSession().setAttribute("loginUserInfo", aftInfo);
-		return "redirect:/user/myPage";
+		try {
+			LoginUserDto befInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+			long userId = befInfo.getUserId();
+			userInfoChangeService.changeNickname(userId, newNickname);
+			
+			// 세션 닉네임 정보 업데이트 -> 추후 수정 필요할 수도
+			LoginUserDto aftInfo = new LoginUserDto(userId, befInfo.getEmail(), newNickname);
+			req.getSession().setAttribute("loginUserInfo", aftInfo);
+			return "redirect:/user/myPage";
+		} catch(UserNotFoundException e) {
+			return "user/changeNicknameForm";
+		}
 	}
 	
 	@GetMapping("/user/changePhoneNumber")
@@ -72,9 +82,13 @@ public class UserInfoChangeController {
 	@PostMapping("/user/changePhoneNumber")
 	public String changePhoneNumber(HttpServletRequest req,
 						@RequestParam(value="newPhoneNumber") String newPhoneNumber) {
-		long userId = ((LoginUserDto) req.getSession().getAttribute("loginUserInfo")).getUserId();
-		userInfoChangeService.changePhoneNumber(userId, newPhoneNumber);
-		return "redirect:/user/myPage";
+		try {
+			long userId = ((LoginUserDto) req.getSession().getAttribute("loginUserInfo")).getUserId();
+			userInfoChangeService.changePhoneNumber(userId, newPhoneNumber);
+			return "redirect:/user/myPage";
+		} catch(UserNotFoundException e) {
+			return "user/changePhoneNumberForm";
+		}
 	}
 	
 	

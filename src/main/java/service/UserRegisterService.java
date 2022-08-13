@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import dao.UserDao;
 import dto.UserRegisterRequest;
 import entity.User;
+import exception.DuplicateUserException;
+import exception.UserNotFoundException;
 
 public class UserRegisterService {
 
@@ -21,7 +23,7 @@ public class UserRegisterService {
 		User user = userDao.selectByEmail(regReq.getEmail());
 		
 		if (user != null) {
-			return;
+			throw new DuplicateUserException();
 		}
 		
 		User newUser = new User(regReq.getEmail(), regReq.getPassword(), regReq.getName(),
@@ -31,7 +33,11 @@ public class UserRegisterService {
 	}
 	
 	public void delete(long userId) {
-		userDao.deleteById(userId);
+		User user = userDao.selectById(userId);
+		if (user == null) {
+			throw new UserNotFoundException();
+		}
+		userDao.delete(user);
 	}
 	
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import dto.LoginRequestDto;
 import dto.LoginUserDto;
+import exception.UserNotFoundException;
+import exception.WrongIdPasswordException;
 import service.UserLoginService;
 
 @Controller
@@ -29,15 +31,13 @@ public class UserLoginController {
 	
 	@RequestMapping("/user/loginPro")
 	public String userLoginPro(LoginRequestDto loginReq ,HttpServletRequest req, Model model) {
+		try {
+			HttpSession session = req.getSession();
 		
-		HttpSession session = req.getSession();
-	
-		LoginUserDto loginUserInfo = userLoginService.login(loginReq.getEmail(), loginReq.getPassword());
-		if (loginUserInfo != null) {
+			LoginUserDto loginUserInfo = userLoginService.login(loginReq.getEmail(), loginReq.getPassword());
 			session.setAttribute("loginUserInfo", loginUserInfo);
 			return "redirect:/";
-		}
-		else {
+		} catch (UserNotFoundException | WrongIdPasswordException e) {
 			return "user/loginForm";
 		}
 		

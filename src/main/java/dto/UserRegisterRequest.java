@@ -1,13 +1,28 @@
 package dto;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 public class UserRegisterRequest {
 	
+	@Email
 	private String email;
+	
+	@NotBlank
 	private String password;
+	
+	@NotBlank
 	private String confirmPassword;
+	
+	@NotBlank
 	private String name;
+	
+	@NotBlank
 	private String nickname;
+	
+	@NotBlank
 	private String phoneNumber;
+	
 	private String type;			//null -> 일반 유저 , admin -> 관리자
 	
 	public UserRegisterRequest() {};
