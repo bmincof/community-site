@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import controller.BoardController;
 import controller.UserController;
 import controller.UserFindInfoController;
 import controller.UserInfoChangeController;
 import controller.UserLoginController;
 import controller.UserRegisterController;
+import dao.BoardDao;
 import dao.UserDao;
+import service.BoardService;
 import service.UserFindInfoService;
 import service.UserInfoChangeService;
 import service.UserLoginService;
@@ -19,15 +22,17 @@ import service.UserRegisterService;
 public class ControllerConfig {
 
 	@Autowired
-	private UserDao userDao;
+	private UserDao userDao;	
 	@Autowired
 	private UserInfoChangeService userInfoChangeService;
-	@Autowired 
+	@Autowired
 	private UserRegisterService userRegisterService;
 	@Autowired
 	private UserLoginService userLoginService;
 	@Autowired
 	private UserFindInfoService userFindInfoService;
+	@Autowired
+	private BoardService boardService;
 	
 	@Bean
 	public UserController userController() {
@@ -61,6 +66,13 @@ public class ControllerConfig {
 	public UserFindInfoController userFindInfoController() {
 		UserFindInfoController controller = new UserFindInfoController();
 		controller.setUserFindInfoService(userFindInfoService);
+		return controller;
+	}
+	
+	@Bean
+	public BoardController boardController() {
+		BoardController controller = new BoardController();
+		controller.setBoardService(boardService);
 		return controller;
 	}
 	

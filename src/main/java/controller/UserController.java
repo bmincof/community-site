@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import dao.BoardDao;
 import dao.UserDao;
+import entity.Board;
 import entity.User;
 
 @Controller
@@ -71,4 +73,5 @@ public class UserController {
 	public String userPage() {
 		return "user/myPage";
 	}
+	
 }

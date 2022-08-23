@@ -19,8 +19,8 @@ import entity.User;
 
 public class UserDao {
 	
-	public UserDao(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	public UserDao(DataSource userDataSource) {
+		this.jdbcTemplate = new JdbcTemplate(userDataSource);
 	}
 	
 	private JdbcTemplate jdbcTemplate;

@@ -4,7 +4,9 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import dao.BoardDao;
 import dao.UserDao;
+import service.BoardService;
 import service.UserFindInfoService;
 import service.UserInfoChangeService;
 import service.UserLoginService;
@@ -14,7 +16,7 @@ import service.UserRegisterService;
 public class UserConfig {
 
 	@Bean
-	public DataSource dataSource() {
+	public DataSource userDataSource() {
 		DataSource ds = new DataSource();
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://localhost:3306/study1?useSSL=false");
@@ -31,7 +33,7 @@ public class UserConfig {
 	
 	@Bean
 	public UserDao userDao() {
-		return new UserDao(dataSource());
+		return new UserDao(userDataSource());
 	}
 	
 	@Bean
@@ -52,6 +54,16 @@ public class UserConfig {
 	@Bean
 	public UserFindInfoService userFindInfoService() {
 		return new UserFindInfoService();
+	}
+	
+	@Bean
+	public BoardDao boardDao() {
+		return new BoardDao(userDataSource());
+	}
+	
+	@Bean
+	public BoardService boardService() {
+		return new BoardService();
 	}
 	
 }
