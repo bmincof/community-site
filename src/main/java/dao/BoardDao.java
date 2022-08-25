@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.hibernate.validator.cfg.context.ReturnValueConstraintMappingContext;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -15,6 +18,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
+import dto.BoardDto;
 import entity.Board;
 import entity.User;
 
@@ -43,8 +47,8 @@ public class BoardDao {
 	// CREATE
 	
 	public void insert(Board board) {
-		String sql = "insert into USER (TITLE, CONTENT, WRITER ,WRITTNE_DATE, VIEWS, UP_VOTES, DOWN_VOTES) " +
-				"values (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into BOARD (TITLE, CONTENT, WRITER ,WRITTEN_DATE, VIEWS, UPVOTES, DOWNVOTES, TYPE) " +
+				"values (?, ?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -59,6 +63,7 @@ public class BoardDao {
 				pstmt.setInt(5, board.getViews());
 				pstmt.setInt(6, board.getUpVotes());
 				pstmt.setInt(7, board.getDownVotes());
+				pstmt.setInt(8, board.getType());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -75,6 +80,24 @@ public class BoardDao {
 //		jdbcTemplate.update(sql,params);
 //	}
 //	
+	public void updateViews(long boardId) {
+		String sql = "update BOARD set VIEWS=VIEWS+1 where BOARDID=?";
+		Object param = boardId;
+		jdbcTemplate.update(sql,param);
+	}
+	
+	public void updateUpvotes(long boardId) {
+		String sql = "update BOARD set UPVOTES=UPVOTES+1 where BOARDID=?";
+		Object param = boardId;
+		jdbcTemplate.update(sql,param);	
+	}
+	
+	public void updateDownvotes(long boardId) {
+		String sql = "update BOARD set DOWNVOTES=DOWNVOTES+1 where BOARDID=?";
+		Object param = boardId;
+		jdbcTemplate.update(sql,param);
+	}
+	
 //	// READ
 //	
 //	public User selectById(long userId) {
@@ -111,6 +134,58 @@ public class BoardDao {
 		String sql = "select * from BOARD";
 		List<Board> results = jdbcTemplate.query(sql, boardMapper);
 		return results;
+	}
+	
+	public List<BoardDto> selectList(){
+		String sql = "select B.*, U.NICKNAME "
+				+ "from USER U INNER JOIN BOARD B "
+				+ "ON U.USERID=B.WRITER";
+		try {
+			List<BoardDto> result = jdbcTemplate.query(sql, 
+					new RowMapper<BoardDto>(){
+						@Override
+						public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							BoardDto boardDto = new BoardDto();
+							boardDto.setBoardId(rs.getLong("BOARDID"));
+							boardDto.setTitle(rs.getString("TITLE"));
+							boardDto.setWriterName(rs.getString("NICKNAME"));
+							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
+							boardDto.setViews(rs.getInt("VIEWS"));
+							boardDto.setUpVotes(rs.getInt("UPVOTES"));
+							return boardDto;
+					}});
+			return result;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
+	
+	public BoardDto showDetail(long boardId){
+		String sql = "select B.*, U.NICKNAME "
+				+ "from USER U INNER JOIN BOARD B "
+				+ "ON U.USERID=B.WRITER "
+				+ "where B.BOARDID=?";
+		try {
+			BoardDto result = jdbcTemplate.queryForObject(sql, 
+					new RowMapper<BoardDto>(){
+						@Override
+						public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							BoardDto boardDto = new BoardDto();
+							boardDto.setBoardId(rs.getLong("BOARDID"));
+							boardDto.setTitle(rs.getString("TITLE"));
+							boardDto.setContent(rs.getString("CONTENT"));
+							boardDto.setWriter(rs.getLong("WRITER"));
+							boardDto.setWriterName(rs.getString("NICKNAME"));
+							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
+							boardDto.setViews(rs.getInt("VIEWS"));
+							boardDto.setUpVotes(rs.getInt("UPVOTES"));
+							boardDto.setDownVotes(rs.getInt("DOWNVOTES"));
+							return boardDto;
+					}},boardId);
+			return result;
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	// DELETE

@@ -10,20 +10,18 @@
 <body>
 	<table border="1" width="80%">
 		<tr>
-			<th>아이디</th><th>제목</th><th>내용</th>
-			<th>작성자</th><th>작성일</th><th>조회수</th>
-			<th>추천</th><th>비추천</th>
+			<th>글 번호</th><th>제목</th>
+			<th>작성자</th><th>조회수</th><th>작성일</th>
+			<th>추천</th>
 		</tr>
-		<c:forEach var="board" items="${boards }">
+		<c:forEach var="board" items="${lists }">
 		<tr>
 			<td>${board.boardId }</td>
-			<td>${board.title }</td>
-			<td>${board.content }</td>
-			<td>${board.writer }</td>
-			<td>${board.writtenDate }</td>
+			<td><a href="<c:url value="/board/${board.boardId}" />" >${board.title }</a></td>
+			<td>${board.writerName }</td>
 			<td>${board.views }</td>
+			<td>${board.writtenDate }</td>
 			<td>${board.upVotes }</td>
-			<td>${board.downVotes }</td>
 		</tr>
 		</c:forEach>
 	</table>

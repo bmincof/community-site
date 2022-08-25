@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import dto.BoardDto;
 import dto.BoardPostRequest;
 import dto.LoginUserDto;
 import entity.Board;
@@ -22,25 +24,33 @@ public class BoardController {
 	public void setBoardService(BoardService boardService) {
 		this.boardService = boardService;
 	}
-	
-	@RequestMapping("/board/list")
-	public String boardList(Model model) {
-		List<Board> boards = boardService.boardList();
-		model.addAttribute("boards",boards);
-		return "board/list";
-	}
-	
-	@PostMapping("/board/write")
+		
+	@RequestMapping("/board/write")
 	public String boardWrite() {
 		return "board/writeForm";
 	}
 	
 	@PostMapping("/board/writePro")
 	public String boardWritePro(BoardPostRequest postReq, HttpServletRequest req) {
-		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("LoginUserInfo");
+		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
 		boardService.post(postReq, userInfo.getUserId());
 		
 		return "redirect:/board/list";
+	}
+	
+	@RequestMapping("/board/list")
+	public String listTest(Model model) {
+		List<BoardDto> lists = boardService.showList();
+		model.addAttribute("lists",lists);
+		return "board/list";
+	}
+	
+	@RequestMapping("/board/{boardId}")
+	public String showDetail(@PathVariable long boardId, Model model) {
+		boardService.updateViews(boardId);
+		BoardDto detail = boardService.showDetail(boardId);
+		model.addAttribute("detail", detail);
+		return "board/detail";
 	}
 	
 }

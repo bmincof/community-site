@@ -14,6 +14,7 @@ public class Board {
 	private int views = 0;
 	private int upVotes = 0;
 	private int downVotes = 0;
+	private int type;
 	
 	public Board(String title, String content, long writer,
 				LocalDateTime writtenDate) {
@@ -63,6 +64,10 @@ public class Board {
 	
 	public int getViews() {
 		return views;
+	}
+	
+	public int getType() {
+		return type;
 	}
 	
 	//

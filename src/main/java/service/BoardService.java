@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.BoardDao;
+import dto.BoardDto;
 import dto.BoardPostRequest;
 import entity.Board;
 
@@ -27,6 +28,26 @@ public class BoardService {
 	
 	public List<Board> boardList() {
 		return boardDao.selectAll();
+	}
+	
+	public List<BoardDto> showList() {
+		return boardDao.selectList();
+	}
+	
+	public BoardDto showDetail(long boardId) {
+		return boardDao.showDetail(boardId);
+	}
+	
+	public void updateViews(long boardId) {
+		boardDao.updateViews(boardId);
+	}
+	
+	public void updateUpvotes(long boardId) {
+		boardDao.updateUpvotes(boardId);
+	}
+	
+	public void updateDownvotes(long boardId) {
+		boardDao.updateDownvotes(boardId);
 	}
 	
 }

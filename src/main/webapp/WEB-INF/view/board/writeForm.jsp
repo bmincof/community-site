@@ -7,7 +7,7 @@
 <title>게시글 작성</title>
 </head>
 <body>
-	<form action="boardWritePro" method="post">
+	<form action="writePro" method="post">
 		<div>
 			글 제목 : <input type="text" name="title">
 		</div>
