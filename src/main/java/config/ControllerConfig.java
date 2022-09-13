@@ -11,6 +11,7 @@ import controller.UserInfoChangeController;
 import controller.UserLoginController;
 import controller.UserRegisterController;
 import dao.BoardDao;
+import dao.BoardVotesDao;
 import dao.UserDao;
 import service.BoardService;
 import service.UserFindInfoService;
@@ -33,6 +34,8 @@ public class ControllerConfig {
 	private UserFindInfoService userFindInfoService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private BoardVotesDao boardVotesDao;
 	
 	@Bean
 	public UserController userController() {
@@ -73,6 +76,7 @@ public class ControllerConfig {
 	public BoardController boardController() {
 		BoardController controller = new BoardController();
 		controller.setBoardService(boardService);
+		controller.setBoardVotesDao(boardVotesDao);
 		return controller;
 	}
 	

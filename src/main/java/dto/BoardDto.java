@@ -11,8 +11,7 @@ public class BoardDto {
 	private String writerName;
 	private LocalDateTime writtenDate;
 	private int views;
-	private int upVotes;
-	private int downVotes;
+	private BoardVotesDto boardVotesDto;
 	private int type;
 	
 	//setter
@@ -44,12 +43,8 @@ public class BoardDto {
 		this.views = views;
 	}
 	
-	public void setUpVotes(int upVotes) {
-		this.upVotes = upVotes;
-	}
-	
-	public void setDownVotes(int downVotes) {
-		this.downVotes = downVotes;
+	public void setVotes(BoardVotesDto boardVotesDto) {
+		this.boardVotesDto = boardVotesDto;
 	}
 	
 	public void setType(int type) {
@@ -85,12 +80,8 @@ public class BoardDto {
 		return views;
 	}
 	
-	public int getUpVotes() {
-		return upVotes;
-	}
-	
-	public int getDownVotes() {
-		return downVotes;
+	public BoardVotesDto getVotes() {
+		return boardVotesDto;
 	}
 	
 	public int getType() {

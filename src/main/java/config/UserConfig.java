@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import dao.BoardDao;
+import dao.BoardVotesDao;
 import dao.UserDao;
 import service.BoardService;
 import service.UserFindInfoService;
@@ -64,6 +65,11 @@ public class UserConfig {
 	@Bean
 	public BoardService boardService() {
 		return new BoardService();
+	}
+	
+	@Bean
+	public BoardVotesDao boardVotesDao() {
+		return new BoardVotesDao(userDataSource());
 	}
 	
 }

@@ -9,25 +9,27 @@
 </head>
 <body>
 	<div>
-		글번호 : ${detail.boardId } 
-		작성자 : ${detail.writerName } 
-		작성일 : ${detail.writtenDate }
+		글번호 : ${detail.boardId } &nbsp; 
+		작성자 : ${detail.writerName } &nbsp; 
+		작성일 : ${detail.writtenDate } &nbsp;
 		조회수 : ${detail.views }
-	</div>
+	</div><br>
 	<div>
 		제목 : ${detail.title }
-	</div>
+	</div><br>
 	<div>
 		내용 : ${detail.content }
-	</div>
+	</div><br>
 	<div>
-		<button type="button">추천 ${detail.upVotes }</button>
-		<button type="button">비추천 ${detail.downVotes }</button>
-	</div>
+		<button type="button" onclick="location.href='../like/${detail.boardId}';">추천 ${detail.votes.up }</button>
+		<button type="button" onclick="location.href='../hate/${detail.boardId}';">비추천 ${detail.votes.down }</button>
+	</div><br>
 	<div>
 		<c:if test="${loginUserInfo.userId eq detail.writer }">
-			글 수정
+			<button type="button" onclick="location.href='../modify/${detail.boardId}';">글 수정</button>
+			<button type="button" onclick="location.href='delete/${detail.boardId}';">글 삭제</button>
 		</c:if>
+		<button type="button" onclick="location.href='../list/${detail.type}';">글 목록</button>
 	</div>
 </body>
 </html>

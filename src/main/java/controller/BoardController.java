@@ -6,31 +6,43 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import dao.BoardVotesDao;
 import dto.BoardDto;
 import dto.BoardPostRequest;
+import dto.BoardVotesDto;
 import dto.LoginUserDto;
 import entity.Board;
 import service.BoardService;
+import vo.PageVo;
+import vo.SearchVo;
 
+@RequestMapping("/board")
 @Controller
 public class BoardController {
 
 	private BoardService boardService;
+	private BoardVotesDao boardVotesDao;
 	
 	public void setBoardService(BoardService boardService) {
 		this.boardService = boardService;
 	}
+	
+	public void setBoardVotesDao(BoardVotesDao boardVotesDao) {
+		this.boardVotesDao = boardVotesDao;
+	}
 		
-	@RequestMapping("/board/write")
-	public String boardWrite() {
+	@RequestMapping("/write")
+	public String boardWriteForm() {
 		return "board/writeForm";
 	}
 	
-	@PostMapping("/board/writePro")
+	@PostMapping("/writePro")
 	public String boardWritePro(BoardPostRequest postReq, HttpServletRequest req) {
 		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
 		boardService.post(postReq, userInfo.getUserId());
@@ -38,19 +50,102 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@RequestMapping("/board/list")
-	public String listTest(Model model) {
-		List<BoardDto> lists = boardService.showList();
+	@RequestMapping("/list/{boardType}")
+	public String boardList(Model model,
+			@PathVariable(value = "boardType") int boardType,
+			@RequestParam(value = "field", required = false) String field,
+			@RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+		
+		SearchVo searchVo = new SearchVo(field, keyword);
+		PageVo pageVo = new PageVo(boardService.count(boardType, searchVo), page);					// testCode
+		List<BoardDto> lists = boardService.showList(boardType, searchVo, pageVo);
 		model.addAttribute("lists",lists);
+		model.addAttribute("pageVo", pageVo);
+		model.addAttribute("searchVo", searchVo);
 		return "board/list";
 	}
 	
-	@RequestMapping("/board/{boardId}")
+	@RequestMapping("detail/{boardId}")
 	public String showDetail(@PathVariable long boardId, Model model) {
 		boardService.updateViews(boardId);
 		BoardDto detail = boardService.showDetail(boardId);
+		detail.setVotes(boardVotesDao.selectByBoardId(boardId));
 		model.addAttribute("detail", detail);
 		return "board/detail";
+	}
+	
+	@GetMapping("/modify/{boardId}")
+	public String boardModifyForm(@PathVariable long boardId, Model model) {
+		BoardDto detail = boardService.showDetail(boardId);
+		model.addAttribute("detail", detail);
+		return "board/modifyForm";
+	}
+	
+	@PostMapping("/modify/do")
+	public String boardModify(BoardDto boardDto) {
+		boardService.updatePost(boardDto);
+		return "redirect:/board/detail/"+boardDto.getBoardId();
+	}
+	
+	@GetMapping("/delete/{boardId}")
+	public String boardDelete(@PathVariable long boardId) {
+		boardService.delete(boardId);
+		return "redirect:/board/list";
+	}
+	
+	/**
+	 * 해당 유저가 
+	 * 1. 게시글에 투표한 적 없을 경우 -> 추천 + 1,
+	 * 2. 게시글에 투표를 이미 한 경우
+	 * -> 추천 한 경우 -> 취소
+	 * -> 비추천 한 경우 -> 유지
+	 * @param boardId
+	 * @param req
+	 * @return
+	 */
+	
+	@GetMapping("/like/{boardId}")
+	public String like(@PathVariable long boardId, HttpServletRequest req) {
+		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+		long userId = userInfo.getUserId();
+		
+		BoardVotesDto vote = boardVotesDao.selectByIds(boardId, userId);
+		
+		if(vote == null ) {
+			boardVotesDao.insertUp(boardId, userId);
+		}
+		else if(!vote.isAbleToVote()) {
+			if (vote.getUp() != 0) boardVotesDao.delete(boardId, userId);
+		}
+		return "redirect:/board/detail/"+boardId;
+	}
+	
+	/**
+	 * 해당 유저가 
+	 * 1. 게시글에 투표한 적 없을 경우 -> 비추천 + 1,
+	 * 2. 게시글에 투표를 이미 한 경우
+	 * -> 추천 한 경우 -> 유지
+	 * -> 비추천 한 경우 -> 취소
+	 * @param boardId
+	 * @param req
+	 * @return
+	 */
+	
+	@GetMapping("/hate/{boardId}")
+	public String hate(@PathVariable long boardId, HttpServletRequest req) {
+		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+		long userId = userInfo.getUserId();
+		
+		BoardVotesDto vote = boardVotesDao.selectByIds(boardId, userId);
+		
+		if(vote == null ) {
+			boardVotesDao.insertDown(boardId, userId);
+		}
+		else if(!vote.isAbleToVote()) {
+			if (vote.getDown()!=0) boardVotesDao.delete(boardId, userId);
+		}
+		return "redirect:/board/detail/"+boardId;
 	}
 	
 }

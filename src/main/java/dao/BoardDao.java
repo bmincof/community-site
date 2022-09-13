@@ -19,15 +19,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import dto.BoardDto;
+import dto.BoardVotesDto;
 import entity.Board;
 import entity.User;
+import vo.PageVo;
 
-public class BoardDao {
-	
-	public BoardDao(DataSource boardDataSource) {
-		this.jdbcTemplate = new JdbcTemplate(boardDataSource);
-	}
-	
+public class BoardDao {	
 	private JdbcTemplate jdbcTemplate;
 	private RowMapper<Board> boardMapper =
 		new RowMapper<Board>() {
@@ -43,12 +40,16 @@ public class BoardDao {
 				return board;
 			}
 		};
+		
+	public BoardDao(DataSource boardDataSource) {
+		this.jdbcTemplate = new JdbcTemplate(boardDataSource);
+	}
 	
 	// CREATE
 	
 	public void insert(Board board) {
-		String sql = "insert into BOARD (TITLE, CONTENT, WRITER ,WRITTEN_DATE, VIEWS, UPVOTES, DOWNVOTES, TYPE) " +
-				"values (?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into BOARD (TITLE, CONTENT, WRITER ,WRITTEN_DATE, VIEWS, TYPE) " +
+				"values (?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -61,9 +62,7 @@ public class BoardDao {
 				pstmt.setLong(3, board.getWriter());
 				pstmt.setTimestamp(4, Timestamp.valueOf(board.getWrittenDate()));
 				pstmt.setInt(5, board.getViews());
-				pstmt.setInt(6, board.getUpVotes());
-				pstmt.setInt(7, board.getDownVotes());
-				pstmt.setInt(8, board.getType());
+				pstmt.setInt(6, board.getType());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -86,18 +85,14 @@ public class BoardDao {
 		jdbcTemplate.update(sql,param);
 	}
 	
-	public void updateUpvotes(long boardId) {
-		String sql = "update BOARD set UPVOTES=UPVOTES+1 where BOARDID=?";
-		Object param = boardId;
-		jdbcTemplate.update(sql,param);	
+	public void updatePost(BoardDto boardDto) {
+		String sql = "update BOARD set TITLE=?, CONTENT=?, TYPE=? where BOARDID=?";
+		Object[] params = {boardDto.getTitle(), 
+							boardDto.getContent(),
+							boardDto.getType(),
+							boardDto.getBoardId()};
+		jdbcTemplate.update(sql, params);
 	}
-	
-	public void updateDownvotes(long boardId) {
-		String sql = "update BOARD set DOWNVOTES=DOWNVOTES+1 where BOARDID=?";
-		Object param = boardId;
-		jdbcTemplate.update(sql,param);
-	}
-	
 //	// READ
 //	
 //	public User selectById(long userId) {
@@ -136,22 +131,40 @@ public class BoardDao {
 		return results;
 	}
 	
-	public List<BoardDto> selectList(){
-		String sql = "select B.*, U.NICKNAME "
-				+ "from USER U INNER JOIN BOARD B "
-				+ "ON U.USERID=B.WRITER";
+	public List<BoardDto> selectList(int type ,String field, String keyword, int limit, int offset){
+		String sql = "SELECT B.*, U.NICKNAME, IFNULL(SUM(V.UP),0) AS UP, IFNULL(SUM(V.DOWN),0) AS DOWN "
+				+ "FROM BOARD B "
+				+ "LEFT OUTER JOIN USER U "
+				+ "ON B.WRITER = U.USERID "
+				+ "LEFT OUTER JOIN BOARD_VOTES V "
+				+ "ON B.BOARDID = V.BOARDID "
+				+ "WHERE B.TYPE = "+type;
+		
+				if(keyword != null && !keyword.isBlank() && !keyword.isEmpty()) {
+					sql += " AND " +field + " LIKE '%"+ keyword +"%'";
+				}
+		
+				sql += " GROUP BY B.BOARDID "
+				+ "ORDER BY BOARDID DESC "
+				+ "LIMIT "+ limit +" OFFSET "+offset+";";
+			
 		try {
 			List<BoardDto> result = jdbcTemplate.query(sql, 
 					new RowMapper<BoardDto>(){
 						@Override
 						public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							BoardVotesDto votes = new BoardVotesDto();
+							votes.setUp(rs.getInt("UP"));
+							votes.setDown(rs.getInt("DOWN"));
+												
 							BoardDto boardDto = new BoardDto();
 							boardDto.setBoardId(rs.getLong("BOARDID"));
 							boardDto.setTitle(rs.getString("TITLE"));
 							boardDto.setWriterName(rs.getString("NICKNAME"));
 							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
 							boardDto.setViews(rs.getInt("VIEWS"));
-							boardDto.setUpVotes(rs.getInt("UPVOTES"));
+							boardDto.setVotes(votes);
+							
 							return boardDto;
 					}});
 			return result;
@@ -170,6 +183,7 @@ public class BoardDao {
 					new RowMapper<BoardDto>(){
 						@Override
 						public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+			
 							BoardDto boardDto = new BoardDto();
 							boardDto.setBoardId(rs.getLong("BOARDID"));
 							boardDto.setTitle(rs.getString("TITLE"));
@@ -178,8 +192,7 @@ public class BoardDao {
 							boardDto.setWriterName(rs.getString("NICKNAME"));
 							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
 							boardDto.setViews(rs.getInt("VIEWS"));
-							boardDto.setUpVotes(rs.getInt("UPVOTES"));
-							boardDto.setDownVotes(rs.getInt("DOWNVOTES"));
+							boardDto.setType(rs.getInt("TYPE"));
 							return boardDto;
 					}},boardId);
 			return result;
@@ -189,10 +202,22 @@ public class BoardDao {
 	}
 	
 	// DELETE
-//	
-//	public void delete(User user) {
-//		String sql = "delete from USER where USERID = ?";
-//		jdbcTemplate.update(sql, user.getUserId());
-//	}
-//	
+	public void delete(long boardId) {
+		String sql = "DELETE FROM BOARD WHERE BOARDID=?";
+		jdbcTemplate.update(sql, boardId);
+	}
+	
+	public int count(int type,String field, String keyword) {
+		String sql = "SELECT COUNT(*) "
+				+ "FROM BOARD B "
+				+ "LEFT OUTER JOIN USER U "
+				+ "ON B.WRITER = U.USERID "
+				+ "WHERE B.TYPE = "+type;
+				if(keyword!=null) {
+					if(!keyword.isBlank() && !keyword.isEmpty()) {
+						sql += " AND "+ field +" LIKE "+ "'%"+ keyword +"%'";
+					}
+				}
+		return jdbcTemplate.queryForObject(sql, Integer.class);
+	}
 }

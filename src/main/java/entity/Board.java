@@ -12,8 +12,6 @@ public class Board {
 	private LocalDateTime writtenDate;
 	//private Comment comment;
 	private int views = 0;
-	private int upVotes = 0;
-	private int downVotes = 0;
 	private int type;
 	
 	public Board(String title, String content, long writer,
@@ -54,33 +52,12 @@ public class Board {
 //		return comment;
 //	}
 	
-	public int getUpVotes() {
-		return upVotes;
-	}
-	
-	public int getDownVotes() {
-		return downVotes;
-	}
-	
 	public int getViews() {
 		return views;
 	}
 	
 	public int getType() {
 		return type;
-	}
-	
-	//
-	public void addViews() {
-		this.views++;
-	}
-	
-	public void addUpVotes() {
-		this.upVotes++;
-	}
-	
-	public void addDownVotes() {
-		this.downVotes++;
 	}
 	
 }
