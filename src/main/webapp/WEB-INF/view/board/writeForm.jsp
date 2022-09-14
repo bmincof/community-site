@@ -21,7 +21,7 @@
 			글 내용 : <textarea name="content"></textarea>
 		</div>
 		<input type="submit" value="작성">
-		<button type="button" onclick="location.href='list';">돌아가기</button>
+		<button type="button" onclick="location.href='javascript:history.back();';">돌아가기</button>
 	</form>
 </body>
 </html>

@@ -60,7 +60,11 @@ public class BoardController {
 		SearchVo searchVo = new SearchVo(field, keyword);
 		PageVo pageVo = new PageVo(boardService.count(boardType, searchVo), page);					// testCode
 		List<BoardDto> lists = boardService.showList(boardType, searchVo, pageVo);
+		List<BoardDto> hotPosts = boardService.showHotPost(boardType, pageVo);
+		List<BoardDto> notices = boardService.showNotice(boardType, pageVo);
+		
 		model.addAttribute("lists",lists);
+		model.addAttribute("hotPosts", hotPosts);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("searchVo", searchVo);
 		return "board/list";

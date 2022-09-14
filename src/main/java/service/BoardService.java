@@ -46,10 +46,10 @@ public class BoardService {
 	
 	public List<BoardDto> showList(int type ,SearchVo searchVo, PageVo pageVo) {
 		return boardDao.selectList(type,
-				searchVo.getField(),
-				searchVo.getKeyword(), 
-				pageVo.getPostPerPage(), 
-				pageVo.getPostPerPage() * (pageVo.getCurPage()-1));
+								searchVo.getField(),
+								searchVo.getKeyword(), 
+								pageVo.getPostPerPage(), 
+								pageVo.getPostPerPage() * (pageVo.getCurPage()-1));
 	}
 	
 	public BoardDto showDetail(long boardId) {
@@ -85,6 +85,14 @@ public class BoardService {
 	
 	public void cancelVotes(long boardId, long userId) {
 		boardVotesDao.delete(boardId, userId);
+	}
+	
+	public List<BoardDto> showHotPost(int type, PageVo pageVo) {
+		return boardDao.selectHotPosts(type, pageVo);
+	}
+	
+	public List<BoardDto> showNotice(int type, PageVo pageVo){
+		return boardDao.selectNotice(type, pageVo);
 	}
 	
 }

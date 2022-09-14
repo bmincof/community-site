@@ -16,6 +16,16 @@
 				<th>작성자</th><th>조회수</th><th>작성일</th>
 				<th>추천</th>
 			</tr>
+			<c:forEach var="board" items="${hotPosts }">
+			<tr bgcolor="#FFE4E1">
+				<td>${board.boardId }</td>
+				<td><a href="<c:url value="/board/detail/${board.boardId}" />" ><span style="color:red;">[인기]</span> ${board.title }</a></td>
+				<td>${board.writerName }</td>
+				<td>${board.views }</td>
+				<td>${board.writtenDate }</td>
+				<td>${board.votes.up }</td>
+			</tr>
+			</c:forEach>
 			<c:forEach var="board" items="${lists }">
 			<tr>
 				<td>${board.boardId }</td>

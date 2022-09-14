@@ -70,15 +70,9 @@ public class BoardDao {
 		board.setBoardId(keyValue.longValue());
 		
 	}
-//	
-//	// UPDATE
-//	
-//	public void update(User user) {
-//		String sql = "update USER set PASSWORD = ?, NAME = ?, NICKNAME = ?, PHONENUMBER = ? where EMAIL = ?";
-//		Object[] params = {user.getPassword(), user.getName(), user.getNickname(), user.getPhoneNumber(), user.getEmail()};
-//		jdbcTemplate.update(sql,params);
-//	}
-//	
+
+	// UPDATE
+
 	public void updateViews(long boardId) {
 		String sql = "update BOARD set VIEWS=VIEWS+1 where BOARDID=?";
 		Object param = boardId;
@@ -93,37 +87,8 @@ public class BoardDao {
 							boardDto.getBoardId()};
 		jdbcTemplate.update(sql, params);
 	}
-//	// READ
-//	
-//	public User selectById(long userId) {
-//		String sql = "select * from USER where USERID = ?";
-//		try {
-//			User result = jdbcTemplate.queryForObject(sql, userMapper, userId);
-//			return result;
-//		} catch (EmptyResultDataAccessException ex) {
-//			return null;
-//		}
-//	}
-//	
-//	public User selectByEmail(String email) {
-//		String sql = "select * from USER where EMAIL = ?";
-//		try {
-//			User result = jdbcTemplate.queryForObject(sql, userMapper, email);
-//			return result;
-//		} catch (EmptyResultDataAccessException ex) {
-//			return null;
-//		}
-//	}
-//	
-//	public List<User> selectByPhoneNumber(String phoneNumber) {
-//		String sql = "select * from USER where PHONENUMBER = ?";
-//		try {
-//			List<User> result = jdbcTemplate.query(sql, userMapper, phoneNumber);
-//			return result;
-//		} catch (EmptyResultDataAccessException ex) {
-//			return null;
-//		}
-//	}
+	
+	// READ
 	
 	public List<Board> selectAll() {
 		String sql = "select * from BOARD";
@@ -199,6 +164,84 @@ public class BoardDao {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+	
+	public List<BoardDto> selectHotPosts(int type, PageVo pageVo) {
+		String sql = "SELECT B.*, U.NICKNAME, IFNULL(SUM(V.UP),0) AS UP "
+				+ "FROM BOARD B "
+				+ "LEFT OUTER JOIN USER U "
+				+ "ON B.WRITER = U.USERID "
+				+ "LEFT OUTER JOIN BOARD_VOTES V "
+				+ "ON B.BOARDID = V.BOARDID "
+				+ "WHERE B.TYPE = " + type + " AND UP >= 10 AND DATEDIFF(NOW(), WRITTEN_DATE) < 30 "
+				+ "GROUP BY B.BOARDID "
+				+ "ORDER BY UP DESC, BOARDID DESC "
+				+ "LIMIT 3;";
+		try {
+			List<BoardDto> result = jdbcTemplate.query(sql, 
+					new RowMapper<BoardDto>(){
+						@Override
+						public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							BoardVotesDto votes = new BoardVotesDto();
+							votes.setUp(rs.getInt("UP"));
+							
+							BoardDto boardDto = new BoardDto();
+							boardDto.setBoardId(rs.getLong("BOARDID"));
+							boardDto.setTitle(rs.getString("TITLE"));
+							boardDto.setContent(rs.getString("CONTENT"));
+							boardDto.setWriter(rs.getLong("WRITER"));
+							boardDto.setWriterName(rs.getString("NICKNAME"));
+							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
+							boardDto.setViews(rs.getInt("VIEWS"));
+							boardDto.setType(rs.getInt("TYPE"));
+							
+							boardDto.setVotes(votes);
+							return boardDto;
+					}});
+			return result;
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+		
+	}
+	
+	public List<BoardDto> selectNotice(int type, PageVo pageVo) {
+		String sql = "SELECT B.*, U.NICKNAME, IFNULL(SUM(V.UP),0) AS UP "
+				+ "FROM BOARD B "
+				+ "LEFT OUTER JOIN USER U "
+				+ "ON B.WRITER = U.USERID "
+				+ "LEFT OUTER JOIN BOARD_VOTES V "
+				+ "ON B.BOARDID = V.BOARDID "
+				+ "WHERE B.TYPE = " + type + " AND UP >= 10 AND DATEDIFF(NOW(), WRITTEN_DATE) < 30 "
+				+ "GROUP BY B.BOARDID "
+				+ "ORDER BY UP DESC, BOARDID DESC "
+				+ "LIMIT 3;";
+		try {
+			List<BoardDto> result = jdbcTemplate.query(sql, 
+					new RowMapper<BoardDto>(){
+						@Override
+						public BoardDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+							BoardVotesDto votes = new BoardVotesDto();
+							votes.setUp(rs.getInt("UP"));
+							
+							BoardDto boardDto = new BoardDto();
+							boardDto.setBoardId(rs.getLong("BOARDID"));
+							boardDto.setTitle(rs.getString("TITLE"));
+							boardDto.setContent(rs.getString("CONTENT"));
+							boardDto.setWriter(rs.getLong("WRITER"));
+							boardDto.setWriterName(rs.getString("NICKNAME"));
+							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
+							boardDto.setViews(rs.getInt("VIEWS"));
+							boardDto.setType(rs.getInt("TYPE"));
+							
+							boardDto.setVotes(votes);
+							return boardDto;
+					}});
+			return result;
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
+		
 	}
 	
 	// DELETE

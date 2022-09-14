@@ -23,7 +23,7 @@
 			내용 : <textarea name="content">${detail.content }</textarea>
 		</div>
 		<button>글 수정</button>
-		<button type="button" onclick="location.href='../detail/${boardId}';">돌아가기</button>
+		<button type="button" onclick="location.href='location.href='javascript:history.back();';">돌아가기</button>
 	</form>
 </body>
 </html>
