@@ -35,8 +35,8 @@ public class UserDao {
 						rs.getString("NAME"),
 						rs.getString("NICKNAME"),
 						rs.getString("PHONENUMBER"),
-						rs.getString("TYPE"),
-						rs.getTimestamp("REGDATE").toLocalDateTime()
+						rs.getTimestamp("REGDATE").toLocalDateTime(),
+						rs.getBoolean("IS_ADMIN")
 						);
 				user.setUserId(rs.getLong("USERID"));
 				return user;
@@ -46,7 +46,7 @@ public class UserDao {
 	// CREATE
 	
 	public void insert(User user) {
-		String sql = "insert into USER (EMAIL, PASSWORD, NAME, NICKNAME, PHONENUMBER, TYPE, REGDATE) " +
+		String sql = "insert into USER (EMAIL, PASSWORD, NAME, NICKNAME, PHONENUMBER, REGDATE, IS_ADMIN) " +
 				"values (?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
@@ -60,8 +60,8 @@ public class UserDao {
 				pstmt.setString(3, user.getName());
 				pstmt.setString(4, user.getNickname());
 				pstmt.setString(5, user.getPhoneNumber());
-				pstmt.setString(6, user.getType());
-				pstmt.setTimestamp(7, Timestamp.valueOf(user.getRegisterDate()));
+				pstmt.setTimestamp(6, Timestamp.valueOf(user.getRegisterDate()));
+				pstmt.setBoolean(7, user.getIsAdmin());
 				return pstmt;
 			}
 		}, keyHolder);

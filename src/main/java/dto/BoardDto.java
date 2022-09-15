@@ -13,6 +13,7 @@ public class BoardDto {
 	private int views;
 	private BoardVotesDto boardVotesDto;
 	private int type;
+	private boolean isNotice;
 	
 	//setter
 	public void setBoardId(long boardId) {
@@ -51,6 +52,10 @@ public class BoardDto {
 		this.type = type;
 	}
 	
+	public void setIsNotice(boolean isNotice) {
+		this.isNotice = isNotice;
+	}
+	
 	//getter
 	public long getBoardId() {
 		return boardId;
@@ -87,4 +92,9 @@ public class BoardDto {
 	public int getType() {
 		return type;
 	}
+	
+	public boolean getIsNotice() {
+		return isNotice;
+	}
+	
 }

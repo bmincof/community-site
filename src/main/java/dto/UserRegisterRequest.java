@@ -23,7 +23,7 @@ public class UserRegisterRequest {
 	@NotBlank
 	private String phoneNumber;
 	
-	private String type;			//null -> 일반 유저 , admin -> 관리자
+	private boolean isAdmin;			//null -> 일반 유저 , admin -> 관리자
 	
 	public UserRegisterRequest() {};
 
@@ -82,12 +82,12 @@ public class UserRegisterRequest {
 	}
 	
 	//type
-	public String getType() {
-		return type;
+	public boolean getIsAdmin() {
+		return isAdmin;
 	}
 	
-	public void setType(String type) {
-		this.type = type;
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 		
 	//other logic

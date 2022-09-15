@@ -34,7 +34,7 @@ public class UserLoginController {
 		try {
 			HttpSession session = req.getSession();
 		
-			LoginUserDto loginUserInfo = userLoginService.login(loginReq.getEmail(), loginReq.getPassword());
+			LoginUserDto loginUserInfo = userLoginService.userLogin(loginReq.getEmail(), loginReq.getPassword());
 			session.setAttribute("loginUserInfo", loginUserInfo);
 			return "redirect:/";
 		} catch (UserNotFoundException | WrongIdPasswordException e) {
@@ -49,6 +49,5 @@ public class UserLoginController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
 	
 }

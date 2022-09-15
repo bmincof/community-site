@@ -13,13 +13,15 @@ public class Board {
 	//private Comment comment;
 	private int views = 0;
 	private int type;
+	private boolean isNotice;
 	
 	public Board(String title, String content, long writer,
-				LocalDateTime writtenDate) {
+				LocalDateTime writtenDate, boolean isNotice) {
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.writtenDate = writtenDate;
+		this.isNotice = isNotice;
 	}
 	
 	//setter
@@ -46,6 +48,10 @@ public class Board {
 	
 	public LocalDateTime getWrittenDate() {
 		return writtenDate;
+	}
+	
+	public boolean getIsNotice() {
+		return isNotice;
 	}
 	
 //	public Comment getComment() {

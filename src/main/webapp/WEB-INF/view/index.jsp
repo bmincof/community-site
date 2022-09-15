@@ -19,18 +19,28 @@
 		<c:if test="${!empty loginUserInfo }">
 			${loginUserInfo.nickname }님, 환영합니다!
 			<div>
-				<a href="<c:url value="/user/myPage" />" >회원정보 관리</a>
+				<a href="<c:url value="/user/myPage" />" >마이페이지</a>
 				<a href="<c:url value="/user/logout" />" >로그아웃</a>	
+			</div><br>
+			<c:if test="${loginUserInfo.isAdmin }">
+			<h3>관리자 메뉴</h3>
+			<div>
+				<a href="<c:url value="/user/list" />" >회원 관리</a>
+				<a href="<c:url value="/user/myPage" />" >게시글 관리</a>	
 			</div>
 		</c:if>
+		</c:if>
+		
 	</div><br>
 	<div>
-		<a href="<c:url value="/board/list/0" />" >전체 게시글</a><br>
-		<a href="<c:url value="/board/list" />" >인기 게시글</a><br>
-		<a href="<c:url value="/board/list/1" />" >자유 게시판</a><br>
-		<a href="<c:url value="/board/list/2" />" >질문 게시판</a><br>
-		<a href="<c:url value="/board/list/3" />" >토론 게시판</a><br>
-		<a href="<c:url value="/board/list/4" />" >정보 공유 게시판</a>
+		<ul>
+			<li><a href="<c:url value="/board/list/0" />" >전체 게시글</a><br></li>
+			<li><a href="<c:url value="/board/list" />" >인기 게시글</a><br></li>
+			<li><a href="<c:url value="/board/list/1" />" >자유 게시판</a><br></li>
+			<li><a href="<c:url value="/board/list/2" />" >질문 게시판</a><br></li>
+			<li><a href="<c:url value="/board/list/3" />" >토론 게시판</a><br></li>
+			<li><a href="<c:url value="/board/list/4" />" >정보 공유 게시판</a></li>
+		</ul>
 	</div>
 </body>
 </html>

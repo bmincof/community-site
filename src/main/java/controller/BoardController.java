@@ -65,6 +65,7 @@ public class BoardController {
 		
 		model.addAttribute("lists",lists);
 		model.addAttribute("hotPosts", hotPosts);
+		model.addAttribute("notices", notices);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("searchVo", searchVo);
 		return "board/list";
@@ -93,9 +94,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("/delete/{boardId}")
-	public String boardDelete(@PathVariable long boardId) {
+	public String boardDelete(@PathVariable long boardId, int boardType) {
 		boardService.delete(boardId);
-		return "redirect:/board/list";
+		return "redirect:/board/list/"+boardType;
 	}
 	
 	/**

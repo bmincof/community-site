@@ -35,7 +35,8 @@ public class BoardDao {
 						rs.getString("TITLE"),
 						rs.getString("CONTENT"),
 						rs.getLong("WRITER"),
-						rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
+						rs.getTimestamp("WRITTEN_DATE").toLocalDateTime(),
+						rs.getBoolean("IS_NOTICE"));
 				board.setBoardId(rs.getLong("BOARDID"));
 				return board;
 			}
@@ -48,8 +49,8 @@ public class BoardDao {
 	// CREATE
 	
 	public void insert(Board board) {
-		String sql = "insert into BOARD (TITLE, CONTENT, WRITER ,WRITTEN_DATE, VIEWS, TYPE) " +
-				"values (?, ?, ?, ?, ?, ?)";
+		String sql = "insert into BOARD (TITLE, CONTENT, WRITER ,WRITTEN_DATE, VIEWS, TYPE, IS_NOTICE) " +
+				"values (?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
@@ -63,6 +64,7 @@ public class BoardDao {
 				pstmt.setTimestamp(4, Timestamp.valueOf(board.getWrittenDate()));
 				pstmt.setInt(5, board.getViews());
 				pstmt.setInt(6, board.getType());
+				pstmt.setBoolean(7, board.getIsNotice());
 				return pstmt;
 			}
 		}, keyHolder);
@@ -103,7 +105,7 @@ public class BoardDao {
 				+ "ON B.WRITER = U.USERID "
 				+ "LEFT OUTER JOIN BOARD_VOTES V "
 				+ "ON B.BOARDID = V.BOARDID "
-				+ "WHERE B.TYPE = "+type;
+				+ "WHERE B.TYPE = "+type+" AND B.IS_NOTICE = 0 ";
 		
 				if(keyword != null && !keyword.isBlank() && !keyword.isEmpty()) {
 					sql += " AND " +field + " LIKE '%"+ keyword +"%'";
@@ -212,10 +214,9 @@ public class BoardDao {
 				+ "ON B.WRITER = U.USERID "
 				+ "LEFT OUTER JOIN BOARD_VOTES V "
 				+ "ON B.BOARDID = V.BOARDID "
-				+ "WHERE B.TYPE = " + type + " AND UP >= 10 AND DATEDIFF(NOW(), WRITTEN_DATE) < 30 "
-				+ "GROUP BY B.BOARDID "
-				+ "ORDER BY UP DESC, BOARDID DESC "
-				+ "LIMIT 3;";
+				+ "WHERE TYPE = " + type + " AND IS_NOTICE = 1 "
+				+ "GROUP BY BOARDID "
+				+ "ORDER BY BOARDID DESC ";
 		try {
 			List<BoardDto> result = jdbcTemplate.query(sql, 
 					new RowMapper<BoardDto>(){
@@ -228,7 +229,6 @@ public class BoardDao {
 							boardDto.setBoardId(rs.getLong("BOARDID"));
 							boardDto.setTitle(rs.getString("TITLE"));
 							boardDto.setContent(rs.getString("CONTENT"));
-							boardDto.setWriter(rs.getLong("WRITER"));
 							boardDto.setWriterName(rs.getString("NICKNAME"));
 							boardDto.setWrittenDate(rs.getTimestamp("WRITTEN_DATE").toLocalDateTime());
 							boardDto.setViews(rs.getInt("VIEWS"));

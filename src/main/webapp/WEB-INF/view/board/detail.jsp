@@ -27,7 +27,7 @@
 	<div>
 		<c:if test="${loginUserInfo.userId eq detail.writer }">
 			<button type="button" onclick="location.href='../modify/${detail.boardId}';">글 수정</button>
-			<button type="button" onclick="location.href='delete/${detail.boardId}';">글 삭제</button>
+			<button type="button" onclick="location.href='../delete/${detail.boardId}?boardType=${detail.type }';">글 삭제</button>
 		</c:if>
 		<button type="button" onclick="location.href='../list/${detail.type}';">글 목록</button>
 	</div>

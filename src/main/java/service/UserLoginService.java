@@ -12,13 +12,14 @@ public class UserLoginService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
 	
-	public LoginUserDto login(String email, String password) {
+	public LoginUserDto userLogin(String email, String password) {
 		User user = userDao.selectByEmail(email);
+		
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
@@ -26,7 +27,12 @@ public class UserLoginService {
 		if(!user.getPassword().equals(password)) {
 			throw new WrongIdPasswordException();
 		}
-		return new LoginUserDto(user.getUserId(), user.getEmail(), user.getNickname());
+		return new LoginUserDto(user.getUserId(), 
+								user.getEmail(),
+								user.getNickname(),
+								user.getIsAdmin());
 	}
+	
+
 	
 }

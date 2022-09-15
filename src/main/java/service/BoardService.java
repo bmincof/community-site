@@ -35,7 +35,7 @@ public class BoardService {
 	
 	public void post(BoardPostRequest req, long userId) {
 		Board newPost = new Board(req.getTitle(), req.getContent(),
-				userId, LocalDateTime.now());
+				userId, LocalDateTime.now(), req.getIsNotice());
 		
 		boardDao.insert(newPost);
 	}

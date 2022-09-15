@@ -26,8 +26,13 @@ public class UserRegisterService {
 			throw new DuplicateUserException();
 		}
 		
-		User newUser = new User(regReq.getEmail(), regReq.getPassword(), regReq.getName(),
-				regReq.getNickname(), regReq.getPhoneNumber(),regReq.getType(),LocalDateTime.now());
+		User newUser = new User(regReq.getEmail(), 
+								regReq.getPassword(),
+								regReq.getName(),
+								regReq.getNickname(),
+								regReq.getPhoneNumber(),
+								LocalDateTime.now(),
+								regReq.getIsAdmin());
 		
 		userDao.insert(newUser);
 	}

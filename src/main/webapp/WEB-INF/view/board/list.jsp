@@ -16,6 +16,16 @@
 				<th>작성자</th><th>조회수</th><th>작성일</th>
 				<th>추천</th>
 			</tr>
+			<c:forEach var="board" items="${notices }">
+			<tr>
+				<td>공지</td>
+				<td><a href="<c:url value="/board/detail/${board.boardId}" />" ><b>${board.title }</b></a></td>
+				<td><b>${board.writerName }</b></td>
+				<td>${board.views }</td>
+				<td>${board.writtenDate }</td>
+				<td>${board.votes.up }</td>
+			</tr>
+			</c:forEach>
 			<c:forEach var="board" items="${hotPosts }">
 			<tr bgcolor="#FFE4E1">
 				<td>${board.boardId }</td>
@@ -55,7 +65,14 @@
 			<input type="hidden" name="keyword" value="${searchVo.keyword }">
 		</div>
 	</form>
-	<a href="<c:url value="/board/write" />" >글 작성</a><br>
+	<div>
+		<c:if test="${loginUserInfo.isAdmin }">
+			<a href="<c:url value="/board/write" />">공지 작성</a>
+		</c:if>
+		<c:if test="${!loginUserInfo.isAdmin or empty loginUserInfo}">
+			<a href="<c:url value="/board/write" />" >글 작성</a><br>
+		</c:if>
+	</div>
 	<form action="" method="get">
 		<input type="hidden" name="page" value="1">
 		<select name="field">

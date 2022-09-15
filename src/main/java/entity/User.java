@@ -10,18 +10,18 @@ public class User {
 	private String name;
 	private String nickname;
 	private String phoneNumber;
-	private String type;
 	private LocalDateTime registerDate;
+	private boolean isAdmin;
 	
 	public User(String email, String password, String name, String nickname,
-			String phoneNumber, String type, LocalDateTime registerDate) {
+			String phoneNumber, LocalDateTime registerDate, boolean isAdmin) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.nickname = nickname;
 		this.phoneNumber = phoneNumber;
-		this.type = type;
 		this.registerDate = registerDate;
+		this.isAdmin = isAdmin;
 	}
 	
 	public void setUserId(long userId) {
@@ -52,12 +52,12 @@ public class User {
 		return phoneNumber;
 	}
 	
-	public String getType() {
-		return type;
-	}
-	
 	public LocalDateTime getRegisterDate() {
 		return registerDate;
+	}
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
 	}
 	
 	// other method
