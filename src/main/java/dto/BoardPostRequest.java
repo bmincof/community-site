@@ -1,10 +1,16 @@
 package dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class BoardPostRequest {
 
+	@NotBlank
 	private String title;
+	
+	@NotBlank
 	private String content;
-	private boolean isNotice;
+	
+	private Boolean isNotice;
 	
 	//setter
 	public void setTitle(String title) {

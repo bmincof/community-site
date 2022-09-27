@@ -24,7 +24,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>
-            config.UserConfig
+            config.Configs
             config.MvcConfig
             config.ControllerConfig
             </param-value>

@@ -2,9 +2,12 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dto.LoginRequestDto;
@@ -14,8 +17,10 @@ import exception.WrongIdPasswordException;
 import service.UserLoginService;
 
 @Controller
+@RequestMapping("/user")
 public class UserLoginController {
 
+	@Autowired
 	private UserLoginService userLoginService;
 	
 	public void setUserLoginService( 
@@ -23,31 +28,31 @@ public class UserLoginController {
 		this.userLoginService = userLoginService;
 	}
 	
-	@RequestMapping("/user/login")
+	@RequestMapping("/login")
 	public String userLogin() {
 		
 		return "user/loginForm";
 	}
 	
-	@RequestMapping("/user/loginPro")
-	public String userLoginPro(LoginRequestDto loginReq ,HttpServletRequest req, Model model) {
+	@RequestMapping("/loginPro")
+	public String userLoginPro(@Valid LoginRequestDto loginReq, Errors errors, HttpServletRequest req, Model model) {
 		try {
 			HttpSession session = req.getSession();
 		
 			LoginUserDto loginUserInfo = userLoginService.userLogin(loginReq.getEmail(), loginReq.getPassword());
 			session.setAttribute("loginUserInfo", loginUserInfo);
-			return "redirect:/";
+			return "redirect:/main";
 		} catch (UserNotFoundException | WrongIdPasswordException e) {
 			return "user/loginForm";
 		}
 		
 	}
 	
-	@RequestMapping("/user/logout")
+	@RequestMapping("/logout")
 	public String userLogout(HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/main";
 	}
 	
 }

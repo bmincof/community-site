@@ -2,10 +2,17 @@ package entity;
 
 import java.time.LocalDateTime;
 
+/**
+ * 게시판 사용자 엔티티 클래스
+ * 
+ * @author a
+ *
+ */
+
 public class User {
 
-	private long userId;	// serial number
-	private String email; // for login
+	private long userId;
+	private String email;
 	private String password;
 	private String name;
 	private String nickname;

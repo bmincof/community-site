@@ -2,10 +2,11 @@ package controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dto.LoginUserDto;
@@ -13,8 +14,10 @@ import exception.UserNotFoundException;
 import service.UserInfoChangeService;
 
 @Controller
+@RequestMapping("/user")
 public class UserInfoChangeController {
 
+	@Autowired
 	private UserInfoChangeService userInfoChangeService;
 	
 	public void setInfoChangeService(
@@ -25,12 +28,12 @@ public class UserInfoChangeController {
 	//session get하고 user select하는 과정 중복
 	
 	//changePassword
-	@GetMapping("/user/changePassword")
+	@GetMapping("/changePassword")
 	public String changePasswordForm() {
 		return "user/changePasswordForm";
 	}
 		
-	@PostMapping("/user/changePassword")
+	@PostMapping("/changePassword")
 	public String changePassword(HttpServletRequest req,
 							@RequestParam(value="newPassword") String newPassword,
 							@RequestParam(value="confirmNewPassword") String confirmNewPassword) {
@@ -50,12 +53,12 @@ public class UserInfoChangeController {
 	
 	//changeNickname
 	
-	@GetMapping("/user/changeNickname")
+	@GetMapping("/changeNickname")
 	public String changeNicknameForm() {
 		return "user/changeNicknameForm";
 	}
 	
-	@PostMapping("/user/changeNickname")
+	@PostMapping("/changeNickname")
 	public String changeNickname(HttpServletRequest req,
 						@RequestParam(value="newNickname") String newNickname) {
 		
@@ -74,12 +77,12 @@ public class UserInfoChangeController {
 		}
 	}
 	
-	@GetMapping("/user/changePhoneNumber")
+	@GetMapping("/changePhoneNumber")
 	public String changePhoneNumberForm() {
 		return "user/changePhoneNumberForm";
 	}
 	
-	@PostMapping("/user/changePhoneNumber")
+	@PostMapping("/changePhoneNumber")
 	public String changePhoneNumber(HttpServletRequest req,
 						@RequestParam(value="newPhoneNumber") String newPhoneNumber) {
 		try {

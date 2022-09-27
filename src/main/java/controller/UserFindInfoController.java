@@ -2,10 +2,11 @@ package controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,8 +15,10 @@ import exception.WrongUserInfoException;
 import service.UserFindInfoService;
 
 @Controller
+@RequestMapping("/user")
 public class UserFindInfoController {
 
+	@Autowired
 	private UserFindInfoService userFindInfoService;
 	
 	public void setUserFindInfoService(
@@ -23,12 +26,12 @@ public class UserFindInfoController {
 		this.userFindInfoService = userFindInfoService;
 	}
 	
-	@GetMapping("/user/findEmail")
+	@GetMapping("/findEmail")
 	public String findUserEmailForm() {
 		return "user/findEmailForm";
 	}
 	
-	@PostMapping("/user/findEmail")
+	@PostMapping("/findEmail")
 	public ModelAndView findUserEmail(@RequestParam(value = "name") String name,
 								@RequestParam(value = "phoneNumber") String phoneNumber,
 								ModelAndView mav) {
@@ -45,14 +48,14 @@ public class UserFindInfoController {
 		}
 	}
 	
-	@GetMapping("/user/findPwd")
+	@GetMapping("/findPwd")
 	public String findUserPwdForm() {
 		return "user/findPwdForm";
 	}
 	
 	// 이후에 DB 비밀번호 반환 대신, 비밀번호 변경하도록 수정할 것
 	
-	@PostMapping("/user/findPwd")
+	@PostMapping("/findPwd")
 	public ModelAndView findUserPwd(@RequestParam(value = "email") String email,
 							@RequestParam(value = "name") String name,
 							@RequestParam(value = "phoneNumber") String phoneNumber,

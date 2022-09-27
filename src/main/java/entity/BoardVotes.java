@@ -1,5 +1,13 @@
 package entity;
 
+/**
+ * 게시글의 추천, 비추천, 북마크 정보를 담고있는 엔티티 클래스
+ * Board와 BoardVotes는 1:N 관계이다.
+ * 
+ * @author a
+ *
+ */
+
 public class BoardVotes {
 
 	private long boardId;

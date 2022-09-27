@@ -1,18 +1,26 @@
 package dto;
 
+import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+/**
+ * 회원가입 시 필요한 정보들을 담고있는 클래스
+ * 
+ * @author a
+ *
+ */
 
 public class UserRegisterRequest {
 	
 	@Email
+	@NotBlank
 	private String email;
-	
+
+	@Min(8)
 	@NotBlank
 	private String password;
-	
-	@NotBlank
-	private String confirmPassword;
 	
 	@NotBlank
 	private String name;
@@ -23,76 +31,56 @@ public class UserRegisterRequest {
 	@NotBlank
 	private String phoneNumber;
 	
-	private boolean isAdmin;			//null -> 일반 유저 , admin -> 관리자
+	private Boolean isAdmin=false;			
 	
-	public UserRegisterRequest() {};
-
-	//email
-	public String getEmail() {
-		return email;
-	}
-	
+	//setter
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	//password
-	public String getPassword() {
-		return password;
 	}
 	
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	//confirmPassword
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-	
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
-	}
-	
-	//name
-	public String getName() {
-		return name;
-	}
-	
+
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	//nickname
-	public String getNickname() {
-		return nickname;
 	}
 
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
-	//phoneNumber
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-	
-	//type
-	public boolean getIsAdmin() {
-		return isAdmin;
 	}
 	
 	public void setIsAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
-		
-	//other logic
-	public boolean isPasswordEqualToConfirmPassword() {
-		return password.equals(confirmPassword);
+	
+	//getter
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getNickname() {
+		return nickname;
+	}
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
 	}
 	
 }

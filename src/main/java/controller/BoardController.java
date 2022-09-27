@@ -3,9 +3,12 @@ package controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,17 +20,22 @@ import dto.BoardDto;
 import dto.BoardPostRequest;
 import dto.BoardVotesDto;
 import dto.LoginUserDto;
-import entity.Board;
 import service.BoardService;
+import service.ReplyService;
 import vo.PageVo;
+import vo.ReplyVo;
 import vo.SearchVo;
 
 @RequestMapping("/board")
 @Controller
 public class BoardController {
 
+	@Autowired
 	private BoardService boardService;
+	@Autowired
 	private BoardVotesDao boardVotesDao;
+	@Autowired
+	private ReplyService replyService;
 	
 	public void setBoardService(BoardService boardService) {
 		this.boardService = boardService;
@@ -36,6 +44,10 @@ public class BoardController {
 	public void setBoardVotesDao(BoardVotesDao boardVotesDao) {
 		this.boardVotesDao = boardVotesDao;
 	}
+	
+	public void setReplyService(ReplyService replyService) {
+		this.replyService = replyService;
+	}
 		
 	@RequestMapping("/write")
 	public String boardWriteForm() {
@@ -43,7 +55,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/writePro")
-	public String boardWritePro(BoardPostRequest postReq, HttpServletRequest req) {
+	public String boardWritePro(@Valid BoardPostRequest postReq, Errors errors, HttpServletRequest req) {
 		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
 		boardService.post(postReq, userInfo.getUserId());
 		
@@ -76,7 +88,10 @@ public class BoardController {
 		boardService.updateViews(boardId);
 		BoardDto detail = boardService.showDetail(boardId);
 		detail.setVotes(boardVotesDao.selectByBoardId(boardId));
+		List<ReplyVo> replies = replyService.showReplies(boardId);
+		
 		model.addAttribute("detail", detail);
+		model.addAttribute("replies", replies);
 		return "board/detail";
 	}
 	
@@ -88,7 +103,7 @@ public class BoardController {
 	}
 	
 	@PostMapping("/modify/do")
-	public String boardModify(BoardDto boardDto) {
+	public String boardModify(@Valid BoardDto boardDto, Errors errors) {
 		boardService.updatePost(boardDto);
 		return "redirect:/board/detail/"+boardDto.getBoardId();
 	}

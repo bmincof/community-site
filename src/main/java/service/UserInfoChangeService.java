@@ -3,7 +3,6 @@ package service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.UserDao;
-import dto.UserDto;
 import entity.User;
 import exception.UserNotFoundException;
 

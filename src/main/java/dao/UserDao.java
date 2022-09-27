@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -19,11 +19,9 @@ import entity.User;
 
 public class UserDao {
 	
-	public UserDao(DataSource userDataSource) {
-		this.jdbcTemplate = new JdbcTemplate(userDataSource);
-	}
-	
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
 	private RowMapper<User> userMapper =
 		new RowMapper<User>() {
 			@Override
@@ -42,6 +40,10 @@ public class UserDao {
 				return user;
 			}
 		};
+		
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 	
 	// CREATE
 	
@@ -94,6 +96,16 @@ public class UserDao {
 		String sql = "select * from USER where EMAIL = ?";
 		try {
 			User result = jdbcTemplate.queryForObject(sql, userMapper, email);
+			return result;
+		} catch (EmptyResultDataAccessException ex) {
+			return null;
+		}
+	}
+	
+	public User selectByNickname(String nickname) {
+		String sql = "select * from USER where NICKNAME = ?";
+		try {
+			User result = jdbcTemplate.queryForObject(sql, userMapper, nickname);
 			return result;
 		} catch (EmptyResultDataAccessException ex) {
 			return null;

@@ -2,6 +2,14 @@ package entity;
 
 import java.time.LocalDateTime;
 
+/**
+ * 게시판 엔티티 클래스
+ * User와 Board는 1:N 관계이다.
+ * 
+ * @author a
+ *
+ */
+
 public class Board {
 
 	private long boardId;

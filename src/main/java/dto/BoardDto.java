@@ -2,10 +2,16 @@ package dto;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class BoardDto {
 
 	private long boardId;
+	
+	@NotBlank
 	private String title;
+	
+	@NotBlank
 	private String content;
 	private long writer;
 	private String writerName;

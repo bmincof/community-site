@@ -7,8 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import dao.UserDao;
 import dto.UserRegisterRequest;
 import entity.User;
-import exception.DuplicateUserException;
+import exception.DuplicateEmailException;
+import exception.DuplicateNicknameException;
 import exception.UserNotFoundException;
+
+/**
+ * 회원 가입, 탈퇴 기능을 제공하는 서비스 클래스
+ * 
+ * @author a
+ *
+ */
 
 public class UserRegisterService {
 
@@ -19,11 +27,20 @@ public class UserRegisterService {
 		this.userDao = userDao;
 	}
 	
+	/**
+	 * 중복된 이메일이나 닉네임이 없다면, 새로운 회원정보를 DB에 추가하는 기능
+	 * 
+	 * @param regReq
+	 */
+	
 	public void regist(UserRegisterRequest regReq) {
-		User user = userDao.selectByEmail(regReq.getEmail());
 		
-		if (user != null) {
-			throw new DuplicateUserException();
+		if (userDao.selectByEmail(regReq.getEmail()) != null) {
+			throw new DuplicateEmailException();
+		}
+		
+		if (userDao.selectByNickname(regReq.getNickname()) != null) {
+			throw new DuplicateNicknameException();
 		}
 		
 		User newUser = new User(regReq.getEmail(), 

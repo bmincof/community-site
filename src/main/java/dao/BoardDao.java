@@ -6,11 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Vector;
-
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.hibernate.validator.cfg.context.ReturnValueConstraintMappingContext;
-import org.springframework.aop.ThrowsAdvice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -21,11 +17,13 @@ import org.springframework.jdbc.support.KeyHolder;
 import dto.BoardDto;
 import dto.BoardVotesDto;
 import entity.Board;
-import entity.User;
 import vo.PageVo;
 
 public class BoardDao {	
+	
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
 	private RowMapper<Board> boardMapper =
 		new RowMapper<Board>() {
 			@Override
@@ -42,8 +40,8 @@ public class BoardDao {
 			}
 		};
 		
-	public BoardDao(DataSource boardDataSource) {
-		this.jdbcTemplate = new JdbcTemplate(boardDataSource);
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 	
 	// CREATE

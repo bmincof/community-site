@@ -30,6 +30,16 @@
 			<button type="button" onclick="location.href='../delete/${detail.boardId}?boardType=${detail.type }';">글 삭제</button>
 		</c:if>
 		<button type="button" onclick="location.href='../list/${detail.type}';">글 목록</button>
+	</div><br>
+	<div>
+		<c:forEach var="replyP" items="${replies }">
+			작성자 <b>${replyP.writerName }</b><br>
+			${replyP.content }<hr>
+			<c:forEach var="replyC" items="${replyP.childReplies }">
+				&nbsp;&nbsp;&nbsp;작성자 <b>${replyC.writerName }</b><br>
+				&nbsp;&nbsp;&nbsp;ㄴ ${replyC.content }<hr>
+			</c:forEach>
+		</c:forEach>
 	</div>
 </body>
 </html>

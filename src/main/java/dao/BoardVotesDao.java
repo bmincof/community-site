@@ -4,11 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
-import javax.sql.DataSource;
-
-import org.springframework.dao.DataAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,7 +15,9 @@ import dto.BoardVotesDto;
 
 public class BoardVotesDao {
 
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
 	private RowMapper<BoardVotesDto> bVotesMapper =
 			new RowMapper<BoardVotesDto>() {
 				@Override
@@ -32,8 +31,8 @@ public class BoardVotesDao {
 				}
 			};
 			
-	public BoardVotesDao(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 	
 	public BoardVotesDto selectByBoardId(long boardId) {
