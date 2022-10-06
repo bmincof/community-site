@@ -6,6 +6,11 @@ import dao.UserDao;
 import entity.User;
 import exception.UserNotFoundException;
 
+/**
+ * 회원정보를 변경하기 위한 서비스
+ * 
+ */
+
 public class UserInfoChangeService {
 
 	@Autowired

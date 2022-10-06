@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dto.LoginUserDto;
 import dto.UserRegisterRequest;
@@ -41,12 +42,24 @@ public class UserRegisterController {
 		return "user/registerForm";
 	}
 	
+	/**
+	 * 회원가입 폼에서 입력받은 값이 이상이 없을 경우 회원가입을 시도한다.
+	 * Exception이 발생하지 않을 경우 회원가입 성공 메시지와 함께 로그인페이지로 이동한다.
+	 * Exception이 발생할 경우 에러메시지를 담아 회원가입 폼을 다시 출력한다.
+	 * 
+	 * @param userRegisterRequest
+	 * @param errors
+	 * @return
+	 */
+	
 	@PostMapping("/registerDo")
-	public String registerDo(@Valid UserRegisterRequest userRegisterRequest, Errors errors) {
+	public String registerDo(@Valid UserRegisterRequest userRegisterRequest, Errors errors, RedirectAttributes rttr) {
 		if(errors.hasErrors()) return "user/registerForm";
 		
 		try {
 			userRegisterService.regist(userRegisterRequest);
+			rttr.addFlashAttribute("msg", "회원가입에 성공했습니다!");
+			
 			return "redirect:/main";
 		} catch (DuplicateEmailException e) {
 			errors.rejectValue("email", "duplicate");

@@ -45,4 +45,8 @@
 		</ul>
 	</div>
 </body>
+<script>
+	var message = '<c:out value ="${msg}" />';
+	if(message != '')	alert(message);
+</script>
 </html>

@@ -10,19 +10,25 @@
 <body>
 	<h2>회원가입</h2>
 	<form:form action="registerDo" onsubmit="return checkPwd()" modelAttribute="userRegisterRequest">
-		<label>이메일 : <input type="text" name="email" value="${userRegisterRequest.email }">
-		<form:errors path="email" /></label><br>
+		이메일 : <input type="text" name="email" value="${userRegisterRequest.email }">
+		<form:errors path="email" /><br>
+		
 		비밀번호 : <input type="password" name="password" id="pwd" onchange="checkPwd()"/>
 		<span id="length"></span><form:errors path="password" /><br>
+		
 		비밀번호 확인 : <input type="password" name="confirmPassword" id="check" onchange="checkPwd()">
 		<span id="same"></span><br>
+		
 		이름 : <input type="text" name="name" value="${userRegisterRequest.name }">
 		<form:errors path="name" /><br>
+		
 		닉네임 : <input type="text" name="nickname" value="${userRegisterRequest.nickname }">
 		<form:errors path="nickname" /><br>
+		
 		전화번호 : <input type="text" name="phoneNumber" value="${userRegisterRequest.phoneNumber }">
 		<form:errors path="phoneNumber" /><br>
 		<input type="submit" value="회원가입">
+		<button type="button" onclick="location.href='/main';">돌아가기</button>
 	</form:form>
 </body>
 <script>

@@ -1,26 +1,33 @@
 package dto;
 
+/**
+ * 로그인 성공 시 세션에 저장할 회원정보를 담을 객체
+ * 
+ * @author a
+ *
+ */
+
 public class LoginUserDto {
 
-	private long userId;
+	private Long userId;
 	private String email;
 	private String nickname;
-	private boolean isAdmin = false;
+	private Boolean isAdmin = false;
 	
-	public LoginUserDto(long userId, String email, String nickname) {
+	public LoginUserDto(Long userId, String email, String nickname) {
 		this.userId = userId;
 		this.email = email;
 		this.nickname = nickname;
 	}
 	
-	public LoginUserDto(long userId, String email, String nickname, boolean isAdmin) {
+	public LoginUserDto(Long userId, String email, String nickname, Boolean isAdmin) {
 		this.userId = userId;
 		this.email = email;
 		this.nickname = nickname;
 		this.isAdmin = isAdmin;
 	}
 	
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
@@ -32,7 +39,7 @@ public class LoginUserDto {
 		return nickname;
 	}
 	
-	public boolean getIsAdmin() {
+	public Boolean getIsAdmin() {
 		return isAdmin;
 	}
 	

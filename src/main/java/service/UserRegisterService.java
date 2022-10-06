@@ -12,7 +12,7 @@ import exception.DuplicateNicknameException;
 import exception.UserNotFoundException;
 
 /**
- * 회원 가입, 탈퇴 기능을 제공하는 서비스 클래스
+ * 회원 가입, 탈퇴 기능을 제공하는 서비스
  * 
  * @author a
  *
