@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import dao.UserDao;
-import service.UserFindInfoService;
+import service.UserInfoFindService;
 import service.UserInfoChangeService;
 import service.UserLoginService;
 import service.UserRegisterService;
@@ -40,8 +40,8 @@ public class UserConfig {
 	}
 	
 	@Bean
-	public UserFindInfoService userFindInfoService() {
-		return new UserFindInfoService();
+	public UserInfoFindService userInfoFindService() {
+		return new UserInfoFindService();
 	}
 
 	

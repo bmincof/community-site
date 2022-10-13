@@ -112,10 +112,10 @@ public class UserDao {
 		}
 	}
 	
-	public List<User> selectByPhoneNumber(String phoneNumber) {
-		String sql = "select * from USER where PHONENUMBER = ?";
+	public List<User> selectByName(String name) {
+		String sql = "select * from USER where NAME = ?";
 		try {
-			List<User> result = jdbcTemplate.query(sql, userMapper, phoneNumber);
+			List<User> result = jdbcTemplate.query(sql, userMapper, name);
 			return result;
 		} catch (EmptyResultDataAccessException ex) {
 			return null;

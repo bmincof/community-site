@@ -14,11 +14,12 @@
 	
 	<c:if test="${!empty foundEmails }">
 		회원님의 정보로 가입된 이메일입니다.<br>
+		<ul>
 		<c:forEach var="foundEmail" items="${foundEmails }">
-			${foundEmail } <br>
+			<li>${foundEmail }<br></li>
 		</c:forEach>
+		</ul>
 	</c:if>
-	
-	<a href="<c:url value="/" />" >메인페이지로 돌아가기</a>
+	<button type="button" onclick="location.href='/main';">돌아가기</button>
 </body>
 </html>

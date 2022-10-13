@@ -28,7 +28,7 @@ public class UserRegisterService {
 	}
 	
 	/**
-	 * 중복된 이메일이나 닉네임이 없다면, 새로운 회원정보를 DB에 추가하는 기능
+	 * 중복된 이메일이나 닉네임이 없을 때 새로운 회원정보를 DB에 추가하는 기능
 	 * 
 	 * @param regReq
 	 */

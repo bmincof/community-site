@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import controller.BoardController;
 import controller.UserController;
-import controller.UserFindInfoController;
-import controller.UserInfoChangeController;
+import controller.UserInfoController;
 import controller.UserLoginController;
 import controller.UserRegisterController;
 
@@ -17,12 +16,7 @@ public class ControllerConfig {
 	public UserController userController() {
 		return new UserController();
 	}
-	
-	@Bean
-	public UserInfoChangeController userInfoChangeController() {
-		return new UserInfoChangeController();
-	}
-	
+		
 	@Bean
 	public UserRegisterController userRegisterController() {
 		return new UserRegisterController();
@@ -34,8 +28,8 @@ public class ControllerConfig {
 	}
 	
 	@Bean
-	public UserFindInfoController userFindInfoController() {
-		return new UserFindInfoController();
+	public UserInfoController userInfoController() {
+		return new UserInfoController();
 	}
 	
 	@Bean

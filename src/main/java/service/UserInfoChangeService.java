@@ -3,7 +3,9 @@ package service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.UserDao;
+import dto.UserInfoChangeRequest;
 import entity.User;
+import exception.DuplicateNicknameException;
 import exception.UserNotFoundException;
 
 /**
@@ -20,35 +22,55 @@ public class UserInfoChangeService {
 		this.userDao = userDao;
 	}
 	
-	/* 세션 + User 변경 -> 로직 다시 구현하기 
-	 * user == null 이면 throw exception 하는 공통기능 구현?
-	 * */
+	/**
+	 * 입력받은 정보와 일치하는 회원의 비밀번호를 새로운 비밀번호로 변경하는 메서드
+	 * 
+	 * @param req
+	 */
 	
-	public void changePassword(long userId, String newPwd) {
-		User user = userDao.selectById(userId);
+	public void changePassword(UserInfoChangeRequest req) {
+		User user = userDao.selectById(req.getUserId());
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
 		
-		user.changePassword(newPwd);
+		user.changePassword(req.getNewPassword());
 		userDao.update(user);
 	}
 	
-	public void changeNickname(long userId, String newNickname) {
-		User user = userDao.selectById(userId);
+	/**
+	 * 입력받은 정보와 일치하는 회원의 닉네임을 새로운 닉네임으로 변경하는 메서드
+	 * 
+	 * @param req
+	 */
+	
+	public void changeNickname(UserInfoChangeRequest req) {
+		if(userDao.selectByNickname(req.getNewNickname()) != null ) {
+			throw new DuplicateNicknameException();
+		}
+			
+		User user = userDao.selectById(req.getUserId());
+		
 		if(user == null) {
 			throw new UserNotFoundException();
 		}
-		user.changeNickname(newNickname);
+		
+		user.changeNickname(req.getNewNickname());
 		userDao.update(user);
 	}
 	
-	public void changePhoneNumber(long userId, String newPhoneNumber) {
-		User user = userDao.selectById(userId);
+	/**
+	 * 입력받은 정보와 일치하는 회원의 휴대전화번호를 새로운 휴대전화번호로 변경하는 메서드
+	 * 
+	 * @param req
+	 */
+	
+	public void changePhoneNumber(UserInfoChangeRequest req) {
+		User user = userDao.selectById(req.getUserId());
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
-		user.changePhoneNumber(newPhoneNumber);
+		user.changePhoneNumber(req.getNewPhoneNumber());
 		userDao.update(user);
 	}
 	

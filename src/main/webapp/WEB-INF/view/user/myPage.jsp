@@ -9,16 +9,13 @@
 </head>
 <body>
 	<div>
-		<c:if test="${empty loginUserInfo }">
-			로그인이 필요한 서비스입니다.
-		</c:if>
-		
-		<c:if test="${!empty loginUserInfo }">
-			${loginUserInfo.nickname } 님의 마이페이지<br>
-			<a href="<c:url value="/user/changePassword" />" >비밀번호 변경</a><br>
-			<a href="<c:url value="/user/changeNickname" />" >닉네임 변경</a><br>
-			<a href="<c:url value="/user/changePhoneNumber" />" >전화번호 변경</a><br>
-		</c:if>
+		<h2>${loginUserInfo.nickname }님의 마이페이지</h2>
+		<ul>
+			<li><a href="<c:url value="/user/changePassword" />" >비밀번호 변경</a><br></li>
+			<li><a href="<c:url value="/user/changeNickname" />" >닉네임 변경</a><br></li>
+			<li><a href="<c:url value="/user/changePhoneNumber" />" >전화번호 변경</a><br></li>
+		</ul>
 	</div>
+	<button type="button" onclick="location.href='/main';">돌아가기</button>
 </body>
 </html>

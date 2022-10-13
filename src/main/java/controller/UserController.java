@@ -30,8 +30,8 @@ public class UserController {
 		return "user/list";
 	}
 	
-	@RequestMapping("/myPage")
-	public String userPage() {
+	@GetMapping("/myPage")
+	public String myPage() {
 		return "user/myPage";
 	}
 	

@@ -54,11 +54,5 @@
 		 }
 	 }
  }
- 
- function send(x) {
-	 if(x.checkPwd()==true){
-		 return true;
-	 }
- }
 </script>
 </html>
