@@ -3,10 +3,10 @@ package service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.UserDao;
-import dto.LoginUserDto;
 import entity.User;
 import exception.UserNotFoundException;
 import exception.WrongIdPasswordException;
+import vo.LoginUserVo;
 
 /**
  * 로그인 기능을 제공하는 서비스
@@ -39,7 +39,7 @@ public class UserLoginService {
 	 * @return
 	 */
 	
-	public LoginUserDto userLogin(String email, String password) {
+	public LoginUserVo userLogin(String email, String password) {
 		User user = userDao.selectByEmail(email);
 		
 		if (user == null) {
@@ -49,7 +49,7 @@ public class UserLoginService {
 		if(!user.getPassword().equals(password)) {
 			throw new WrongIdPasswordException();
 		}
-		return new LoginUserDto(user.getUserId(), 
+		return new LoginUserVo(user.getUserId(), 
 								user.getEmail(),
 								user.getNickname(),
 								user.getIsAdmin());

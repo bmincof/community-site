@@ -49,13 +49,12 @@ public class BoardDao {
 	public void insert(Board board) {
 		String sql = "insert into BOARD (TITLE, CONTENT, WRITER ,WRITTEN_DATE, VIEWS, TYPE, IS_NOTICE) " +
 				"values (?, ?, ?, ?, ?, ?, ?)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"BOARDID"});
+				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, board.getTitle());
 				pstmt.setString(2, board.getContent());
 				pstmt.setLong(3, board.getWriter());
@@ -65,10 +64,7 @@ public class BoardDao {
 				pstmt.setBoolean(7, board.getIsNotice());
 				return pstmt;
 			}
-		}, keyHolder);
-		Number keyValue = keyHolder.getKey();
-		board.setBoardId(keyValue.longValue());
-		
+		});
 	}
 
 	// UPDATE

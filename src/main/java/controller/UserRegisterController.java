@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import dto.LoginUserDto;
 import dto.UserRegisterRequest;
 import exception.DuplicateEmailException;
 import exception.DuplicateNicknameException;
 import exception.UserNotFoundException;
 import service.UserRegisterService;
+import vo.LoginUserVo;
 
 /**
  * 회원가입, 탈퇴 요청을 처리하기 위한 컨트롤러
@@ -83,7 +83,7 @@ public class UserRegisterController {
 		}
 		else {
 			try {
-				LoginUserDto user = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+				LoginUserVo user = (LoginUserVo) req.getSession().getAttribute("loginUserInfo");
 				long userId = user.getUserId();
 				userRegisterService.delete(userId);
 				return "redirect:/";

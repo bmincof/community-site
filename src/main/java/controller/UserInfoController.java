@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import dto.LoginUserDto;
 import dto.UserInfoChangeRequest;
 import dto.UserInfoFindRequest;
 import exception.DuplicateNicknameException;
 import exception.UserNotFoundException;
 import exception.WrongUserInfoException;
 import service.UserInfoFindService;
+import vo.LoginUserVo;
 import service.UserInfoChangeService;
 
 /**
@@ -112,8 +112,8 @@ public class UserInfoController {
 			userInfoChangeService.changeNickname(req);
 			
 			// 세션 닉네임 정보 업데이트
-			LoginUserDto befInfo = (LoginUserDto) hreq.getSession().getAttribute("loginUserInfo");
-			LoginUserDto aftInfo = new LoginUserDto(req.getUserId(), befInfo.getEmail(), req.getNewNickname());
+			LoginUserVo befInfo = (LoginUserVo) hreq.getSession().getAttribute("loginUserInfo");
+			LoginUserVo aftInfo = new LoginUserVo(req.getUserId(), befInfo.getEmail(), req.getNewNickname());
 			hreq.getSession().setAttribute("loginUserInfo", aftInfo);
 			
 			return "user/myPage";
@@ -202,7 +202,7 @@ public class UserInfoController {
 	
 	@PostMapping("/findPwd")
 	public String findUserPwd(@Valid UserInfoFindRequest req, Errors errors, Model model) {
-		if(errors.hasErrors()) return "user/findPwdForm"; 
+		if(errors.hasErrors()) return "user/findPasswordForm"; 
 		
 		try {
 			Long userId = userInfoFindService.findPassword(req);
@@ -212,7 +212,7 @@ public class UserInfoController {
 		} catch(UserNotFoundException | WrongUserInfoException e) {
 			model.addAttribute("msg","일치하는 회원정보가 없습니다.");
 			
-			return "user/findPwdForm";
+			return "user/findPasswordForm";
 		}
 	}
 	

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dto.UserLoginRequest;
-import dto.LoginUserDto;
 import exception.UserNotFoundException;
 import exception.WrongIdPasswordException;
 import service.UserLoginService;
+import vo.LoginUserVo;
 
 /**
  * 로그인, 로그아웃 요청을 처리하기 위한 컨트롤러
@@ -61,7 +61,7 @@ public class UserLoginController {
 		
 		try {
 			HttpSession session = req.getSession();
-			LoginUserDto loginUserInfo = userLoginService.userLogin(loginReq.getEmail(), loginReq.getPassword());
+			LoginUserVo loginUserInfo = userLoginService.userLogin(loginReq.getEmail(), loginReq.getPassword());
 			
 			session.setAttribute("loginUserInfo", loginUserInfo);
 			

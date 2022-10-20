@@ -47,7 +47,6 @@ public class ReplyDao {
 	public void insert(Reply reply) {
 		String sql = "insert into REPLY (BOARDID, WRITER, REF, CONTENT, WRITTEN_DATE) " +
 				"values (?, ?, ?, ?, ?)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
@@ -61,9 +60,7 @@ public class ReplyDao {
 				pstmt.setTimestamp(5, Timestamp.valueOf(reply.getWrittenDate()));
 				return pstmt;
 			}
-		}, keyHolder);
-		Number keyValue = keyHolder.getKey();
-		reply.setReplyId(keyValue.longValue());
+		});
 	}
 	
 	public List<ReplyVo> selectListByBoardId(long boardId) {

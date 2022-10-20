@@ -19,9 +19,9 @@ import dao.BoardVotesDao;
 import dto.BoardDto;
 import dto.BoardPostRequest;
 import dto.BoardVotesDto;
-import dto.LoginUserDto;
 import service.BoardService;
 import service.ReplyService;
+import vo.LoginUserVo;
 import vo.PageVo;
 import vo.ReplyVo;
 import vo.SearchVo;
@@ -56,7 +56,7 @@ public class BoardController {
 	
 	@PostMapping("/writePro")
 	public String boardWritePro(@Valid BoardPostRequest postReq, Errors errors, HttpServletRequest req) {
-		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+		LoginUserVo userInfo = (LoginUserVo) req.getSession().getAttribute("loginUserInfo");
 		boardService.post(postReq, userInfo.getUserId());
 		
 		return "redirect:/board/list";
@@ -127,7 +127,7 @@ public class BoardController {
 	
 	@GetMapping("/like/{boardId}")
 	public String like(@PathVariable long boardId, HttpServletRequest req) {
-		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+		LoginUserVo userInfo = (LoginUserVo) req.getSession().getAttribute("loginUserInfo");
 		long userId = userInfo.getUserId();
 		
 		BoardVotesDto vote = boardVotesDao.selectByIds(boardId, userId);
@@ -154,7 +154,7 @@ public class BoardController {
 	
 	@GetMapping("/hate/{boardId}")
 	public String hate(@PathVariable long boardId, HttpServletRequest req) {
-		LoginUserDto userInfo = (LoginUserDto) req.getSession().getAttribute("loginUserInfo");
+		LoginUserVo userInfo = (LoginUserVo) req.getSession().getAttribute("loginUserInfo");
 		long userId = userInfo.getUserId();
 		
 		BoardVotesDto vote = boardVotesDao.selectByIds(boardId, userId);

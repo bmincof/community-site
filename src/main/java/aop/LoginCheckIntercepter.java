@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import dto.LoginUserDto;
+import vo.LoginUserVo;
 
 public class LoginCheckIntercepter implements HandlerInterceptor{
 
@@ -14,7 +14,7 @@ public class LoginCheckIntercepter implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request,
 							HttpServletResponse response,
 							Object handler) throws Exception{
-		LoginUserDto userInfo = (LoginUserDto) request.getSession().getAttribute("loginUserInfo");
+		LoginUserVo userInfo = (LoginUserVo) request.getSession().getAttribute("loginUserInfo");
 		
 		if(userInfo == null) {
 			response.sendRedirect("user/login");

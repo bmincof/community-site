@@ -50,13 +50,12 @@ public class UserDao {
 	public void insert(User user) {
 		String sql = "insert into USER (EMAIL, PASSWORD, NAME, NICKNAME, PHONENUMBER, REGDATE, IS_ADMIN) " +
 				"values (?, ?, ?, ?, ?, ?, ?)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"USERID"});
+				PreparedStatement pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, user.getEmail());
 				pstmt.setString(2, user.getPassword());
 				pstmt.setString(3, user.getName());
@@ -66,9 +65,7 @@ public class UserDao {
 				pstmt.setBoolean(7, user.getIsAdmin());
 				return pstmt;
 			}
-		}, keyHolder);
-		Number keyValue = keyHolder.getKey();
-		user.setUserId(keyValue.longValue());
+		});
 		
 	}
 	

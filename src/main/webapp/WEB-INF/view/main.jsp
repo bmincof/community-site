@@ -30,7 +30,7 @@
 				<a href="<c:url value="/user/list" />" ><spring:message code="manage.user" /></a>
 				<a href="<c:url value="/user/myPage" />" ><spring:message code="manage.board" /></a>	
 			</div>
-		</c:if>
+			</c:if>	
 		</c:if>
 		
 	</div><br>
