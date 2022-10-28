@@ -36,12 +36,12 @@
 	</div><br>
 	<div>
 		<ul>
-			<li><a href="<c:url value="/board/list/0" />" ><spring:message code="board.all" /></a><br></li>
-			<li><a href="<c:url value="/board/list" />" ><spring:message code="board.hot" /></a><br></li>
-			<li><a href="<c:url value="/board/list/1" />" ><spring:message code="board.free" /></a><br></li>
-			<li><a href="<c:url value="/board/list/2" />" ><spring:message code="board.ask" /></a><br></li>
-			<li><a href="<c:url value="/board/list/3" />" ><spring:message code="board.discuss" /></a><br></li>
-			<li><a href="<c:url value="/board/list/4" />" ><spring:message code="board.info" /></a></li>
+			<li><a href="<c:url value="/board/list" />" ><spring:message code="board.all" /></a><br></li>
+			<li><a href="<c:url value="/board/list/hot" />" ><spring:message code="board.hot" /></a><br></li>
+			<li><a href="<c:url value="/board/list/0" />" ><spring:message code="board.free" /></a><br></li>
+			<li><a href="<c:url value="/board/list/1" />" ><spring:message code="board.ask" /></a><br></li>
+			<li><a href="<c:url value="/board/list/2" />" ><spring:message code="board.discuss" /></a><br></li>
+			<li><a href="<c:url value="/board/list/3" />" ><spring:message code="board.info" /></a></li>
 		</ul>
 	</div>
 </body>

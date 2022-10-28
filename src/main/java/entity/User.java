@@ -19,9 +19,10 @@ public class User {
 	private String phoneNumber;
 	private LocalDateTime registerDate;
 	private boolean isAdmin;
+	private Boolean isDeleted;
 	
 	public User(String email, String password, String name, String nickname,
-			String phoneNumber, LocalDateTime registerDate, boolean isAdmin) {
+			String phoneNumber, LocalDateTime registerDate, boolean isAdmin, Boolean isDeleted) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
@@ -29,6 +30,7 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.registerDate = registerDate;
 		this.isAdmin = isAdmin;
+		this.isDeleted = isDeleted;
 	}
 	
 	public void setUserId(long userId) {
@@ -65,6 +67,10 @@ public class User {
 	
 	public boolean getIsAdmin() {
 		return isAdmin;
+	}
+	
+	public Boolean getIsDeleted() {
+		return isDeleted;
 	}
 	
 	// other method

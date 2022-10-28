@@ -1,14 +1,19 @@
 package dto;
 
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotBlank;
 
 public class BoardPostRequest {
 
 	@NotBlank
+	@Size(min=2)
 	private String title;
 	
 	@NotBlank
 	private String content;
+	
+	private Integer type;
 	
 	private Boolean isNotice;
 	
@@ -21,7 +26,11 @@ public class BoardPostRequest {
 		this.content = content;
 	}
 	
-	public void setIsNotice(boolean isNotice) {
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	
+	public void setIsNotice(Boolean isNotice) {
 		this.isNotice = isNotice;
 	}
 	
@@ -34,7 +43,11 @@ public class BoardPostRequest {
 		return content;
 	}
 	
-	public boolean getIsNotice() {
+	public Integer getType() {
+		return type;
+	}
+	
+	public Boolean getIsNotice() {
 		return isNotice;
 	}
 	

@@ -2,34 +2,25 @@ package dto;
 
 public class BoardVotesDto {
 
-	private int up;
-	private int down;
-	private int bookmark;
+	private Integer up;
+	private Integer down;
 	
 	//setter
-	public void setUp(int up) {
+	public void setUp(Integer up) {
 		this.up = up;
 	}
 	
-	public void setDown(int down) {
+	public void setDown(Integer down) {
 		this.down = down;
 	}
 	
-	public void setBookmark(int bookmark) {
-		this.bookmark = bookmark;
-	}
-	
 	//getter
-	public int getUp() {
+	public Integer getUp() {
 		return up;
 	}
 	
-	public int getDown() {
+	public Integer getDown() {
 		return down;
-	}
-	
-	public int getBookmark() {
-		return bookmark;
 	}
 	
 	//other logics

@@ -8,7 +8,7 @@
 <title>게시글 작성</title>
 </head>
 <body>
-	<form action="writePro" method="post">
+	<form action="writeDo" method="post">
 		<c:if test="${!loginUserInfo.isAdmin }">
 			<h2>게시글 작성</h2>
 			<input type="hidden" name="isNotice" value="false">
@@ -20,10 +20,10 @@
 			<div>
 				글 제목 : <input type="text" name="title" style="width:600px">
 				<select name="type">
-					<option value="1">자유</option>
-					<option value="2">질문</option>
-					<option value="3">토론</option>
-					<option value="4">정보 공유</option>
+					<option value="0">자유</option>
+					<option value="1">질문</option>
+					<option value="2">토론</option>
+					<option value="3">정보 공유</option>
 				</select>
 			</div><br>
 			<div>
@@ -34,4 +34,8 @@
 			<button type="button" onclick="location.href='javascript:history.back();';">돌아가기</button>
 	</form>
 </body>
+<script>
+	var message = '<c:out value ="${msg}" />';
+	if(message != '')	alert(message);
+</script>
 </html>

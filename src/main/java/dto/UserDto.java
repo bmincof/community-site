@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class UserDto {
 
-	private long userId;	// serial number
+	private Long userId;	// serial number
 	private String email; // for login
 	private String password;
 	private String name;
@@ -13,7 +13,7 @@ public class UserDto {
 	private LocalDateTime registerDate;
 
 	//userId
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 

@@ -12,33 +12,33 @@ import java.time.LocalDateTime;
 
 public class Board {
 
-	private long boardId;
+	private Long boardId;
 	private String title;
 	private String content;
-	// 1:N (userId)
-	private long writer;
+	private Long writer;
 	private LocalDateTime writtenDate;
-	//private Comment comment;
-	private int views = 0;
-	private int type;
-	private boolean isNotice;
+	private Integer views;
+	private Integer type;
+	private Boolean isNotice;
 	
-	public Board(String title, String content, long writer,
-				LocalDateTime writtenDate, boolean isNotice) {
+	public Board(String title, String content, Long writer,
+				LocalDateTime writtenDate, Integer type, Boolean isNotice) {
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.writtenDate = writtenDate;
+		this.views = 0;
+		this.type = type;
 		this.isNotice = isNotice;
 	}
 	
 	//setter
-	public void setBoardId(long boardId) {
+	public void setBoardId(Long boardId) {
 		this.boardId = boardId;
 	}
 	
 	//getter
-	public long getBoardId() {
+	public Long getBoardId() {
 		return boardId;
 	}
 	
@@ -50,7 +50,7 @@ public class Board {
 		return content;
 	}
 	
-	public long getWriter() {
+	public Long getWriter() {
 		return writer;
 	}
 	
@@ -58,19 +58,15 @@ public class Board {
 		return writtenDate;
 	}
 	
-	public boolean getIsNotice() {
+	public Boolean getIsNotice() {
 		return isNotice;
 	}
 	
-//	public Comment getComment() {
-//		return comment;
-//	}
-	
-	public int getViews() {
+	public Integer getViews() {
 		return views;
 	}
 	
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 	

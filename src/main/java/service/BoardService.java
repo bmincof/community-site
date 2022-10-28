@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import dao.BoardDao;
 import dao.BoardVotesDao;
 import dto.BoardDto;
+import dto.BoardListResponse;
+import dto.BoardModifyRequest;
 import dto.BoardPostRequest;
 import dto.BoardVotesDto;
 import entity.Board;
@@ -18,81 +20,58 @@ public class BoardService {
 
 	@Autowired
 	private BoardDao boardDao;
-	@Autowired
-	private BoardVotesDao boardVotesDao;
 	
 	public void setBoardDao(BoardDao boardDao) {
 		this.boardDao = boardDao;
 	}
 	
-	public void setBoardVotesDao(BoardVotesDao boardVotesDao) {
-		this.boardVotesDao = boardVotesDao;
+	public int count(SearchVo searchVo) {
+		return boardDao.count(searchVo.getField(), searchVo.getKeyword());
 	}
 	
-	public int count(int type, SearchVo searchVo) {
-		return boardDao.count(type, searchVo.getField(), searchVo.getKeyword());
+	public int countWithType(Integer boardType, SearchVo searchVo) {
+		return boardDao.countWithType(boardType, searchVo.getField(), searchVo.getKeyword());
 	}
 	
-	public void post(BoardPostRequest req, long userId) {
-		Board newPost = new Board(req.getTitle(), req.getContent(),
-				userId, LocalDateTime.now(), req.getIsNotice());
+	public int countHot(SearchVo searchVo) {
+		return boardDao.countHot(searchVo.getField(), searchVo.getKeyword());
+	}
+	
+	public BoardListResponse showBoardList(Integer boardType, PageVo pageVo, SearchVo searchVo) {
+		BoardListResponse response = new BoardListResponse(boardType);
 		
-		boardDao.insert(newPost);
+		response.setNotices(boardDao.selectNotices(boardType));
+		response.setHotPosts(boardDao.selectHotPosts(boardType));
+		response.setPosts(boardDao.selectPosts(boardType,
+				searchVo.getField(),
+				searchVo.getKeyword(), 
+				pageVo.getPostPerPage(), 
+				pageVo.getPostPerPage() * (pageVo.getCurPage()-1)));
+		
+		return response;
 	}
 	
-	public List<Board> boardList() {
-		return boardDao.selectAll();
+	public BoardListResponse showBoardList(PageVo pageVo, SearchVo searchVo) {
+		BoardListResponse response = new BoardListResponse();
+		
+		response.setHotPosts(boardDao.selectHotPosts());
+		response.setPosts(boardDao.selectPosts(searchVo.getField(),
+				searchVo.getKeyword(), 
+				pageVo.getPostPerPage(), 
+				pageVo.getPostPerPage() * (pageVo.getCurPage()-1)));
+		
+		return response;
 	}
 	
-	public List<BoardDto> showList(int type ,SearchVo searchVo, PageVo pageVo) {
-		return boardDao.selectList(type,
-								searchVo.getField(),
-								searchVo.getKeyword(), 
-								pageVo.getPostPerPage(), 
-								pageVo.getPostPerPage() * (pageVo.getCurPage()-1));
-	}
-	
-	public BoardDto showDetail(long boardId) {
-		return boardDao.showDetail(boardId);
-	}
-	
-	public void updateViews(long boardId) {
-		boardDao.updateViews(boardId);
-	}
-	
-	public void delete(long boardId) {
-		boardDao.delete(boardId);
-	}
-	
-	public void updatePost(BoardDto boardDto) {
-		boardDao.updatePost(boardDto);
-	}
-	
-	public BoardVotesDto showVotes(long boardId) {
-		BoardVotesDto result = new BoardVotesDto();
-		result.setUp(boardVotesDao.countUp(boardId));
-		result.setDown(boardVotesDao.countDown(boardId));
-		return result;
-	}
-	
-	public void like(long boardId, long userId) {
-		boardVotesDao.insertUp(boardId, userId);
-	}
-	
-	public void hate(long boardId, long userId) {
-		boardVotesDao.insertDown(boardId, userId);
-	}
-	
-	public void cancelVotes(long boardId, long userId) {
-		boardVotesDao.delete(boardId, userId);
-	}
-	
-	public List<BoardDto> showHotPost(int type, PageVo pageVo) {
-		return boardDao.selectHotPosts(type, pageVo);
-	}
-	
-	public List<BoardDto> showNotice(int type, PageVo pageVo){
-		return boardDao.selectNotice(type, pageVo);
+	public BoardListResponse showHotPosts(PageVo pageVo, SearchVo searchVo) {
+		BoardListResponse response = new BoardListResponse(-1);
+		
+		response.setPosts(boardDao.selectAllHotPosts(searchVo.getField(),
+				searchVo.getKeyword(), 
+				pageVo.getPostPerPage(), 
+				pageVo.getPostPerPage() * (pageVo.getCurPage()-1)));
+		
+		return response;
 	}
 	
 }

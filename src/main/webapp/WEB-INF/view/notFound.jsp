@@ -4,13 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NotFound</title>
 </head>
 <body>
-	<script>
-		alert("${msg}");
-		location.href = '${href}';
-	</script>
-
+	<h1>${NotFound }</h1>
+	<button onclick="location.href='/main';">메인으로</button>
 </body>
 </html>

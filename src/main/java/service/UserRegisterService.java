@@ -49,17 +49,19 @@ public class UserRegisterService {
 								regReq.getNickname(),
 								regReq.getPhoneNumber(),
 								LocalDateTime.now(),
-								regReq.getIsAdmin());
+								regReq.getIsAdmin(),
+								false);
 		
 		userDao.insert(newUser);
 	}
 	
-	public void delete(long userId) {
+	public void delete(Long userId) {
 		User user = userDao.selectById(userId);
 		if (user == null) {
 			throw new UserNotFoundException();
 		}
-		userDao.delete(user);
+		
+		userDao.deleteUserInfo(userId);
 	}
 	
 }

@@ -17,29 +17,35 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import entity.User;
 
+/**
+ * SQL쿼리문을 통해 User 테이블로부터 데이터를 받아오는 기능을 수행하는 클래스
+ * 
+ * @author a
+ *
+ */
+
 public class UserDao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	private RowMapper<User> userMapper =
-		new RowMapper<User>() {
-			@Override
-			public User mapRow(ResultSet rs, int rowNum)
-				throws SQLException {
-				User user = new User(
-						rs.getString("EMAIL"),
-						rs.getString("PASSWORD"),
-						rs.getString("NAME"),
-						rs.getString("NICKNAME"),
-						rs.getString("PHONENUMBER"),
-						rs.getTimestamp("REGDATE").toLocalDateTime(),
-						rs.getBoolean("IS_ADMIN")
-						);
-				user.setUserId(rs.getLong("USERID"));
-				return user;
-			}
-		};
+	private RowMapper<User> userMapper = new RowMapper<User>() {
+		@Override
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User(
+					rs.getString("EMAIL"),
+					rs.getString("PASSWORD"),
+					rs.getString("NAME"),
+					rs.getString("NICKNAME"),
+					rs.getString("PHONENUMBER"),
+					rs.getTimestamp("REGDATE").toLocalDateTime(),
+					rs.getBoolean("IS_ADMIN"),
+					rs.getBoolean("IS_DELETED")
+					);
+			user.setUserId(rs.getLong("USERID"));
+			return user;
+		}
+	};
 		
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -48,8 +54,8 @@ public class UserDao {
 	// CREATE
 	
 	public void insert(User user) {
-		String sql = "insert into USER (EMAIL, PASSWORD, NAME, NICKNAME, PHONENUMBER, REGDATE, IS_ADMIN) " +
-				"values (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO USER (EMAIL, PASSWORD, NAME, NICKNAME, PHONENUMBER, REGDATE, IS_ADMIN) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?)";
 		
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			
@@ -72,15 +78,15 @@ public class UserDao {
 	// UPDATE
 	
 	public void update(User user) {
-		String sql = "update USER set PASSWORD = ?, NAME = ?, NICKNAME = ?, PHONENUMBER = ? where EMAIL = ?";
+		String sql = "UPDATE USER SET PASSWORD = ?, NAME = ?, NICKNAME = ?, PHONENUMBER = ? WHERE EMAIL = ?";
 		Object[] params = {user.getPassword(), user.getName(), user.getNickname(), user.getPhoneNumber(), user.getEmail()};
 		jdbcTemplate.update(sql,params);
 	}
 	
 	// READ
 	
-	public User selectById(long userId) {
-		String sql = "select * from USER where USERID = ?";
+	public User selectById(Long userId) {
+		String sql = "SELECT * FROM USER WHERE USERID = ?";
 		try {
 			User result = jdbcTemplate.queryForObject(sql, userMapper, userId);
 			return result;
@@ -90,7 +96,7 @@ public class UserDao {
 	}
 	
 	public User selectByEmail(String email) {
-		String sql = "select * from USER where EMAIL = ?";
+		String sql = "SELECT * FROM USER WHERE EMAIL = ?";
 		try {
 			User result = jdbcTemplate.queryForObject(sql, userMapper, email);
 			return result;
@@ -100,7 +106,7 @@ public class UserDao {
 	}
 	
 	public User selectByNickname(String nickname) {
-		String sql = "select * from USER where NICKNAME = ?";
+		String sql = "SELECT * FROM USER WHERE NICKNAME = ?";
 		try {
 			User result = jdbcTemplate.queryForObject(sql, userMapper, nickname);
 			return result;
@@ -110,7 +116,7 @@ public class UserDao {
 	}
 	
 	public List<User> selectByName(String name) {
-		String sql = "select * from USER where NAME = ?";
+		String sql = "SELECT * FROM USER WHERE NAME = ?";
 		try {
 			List<User> result = jdbcTemplate.query(sql, userMapper, name);
 			return result;
@@ -120,16 +126,17 @@ public class UserDao {
 	}
 	
 	public List<User> selectAll() {
-		String sql = "select * from USER";
+		String sql = "SELECT * FROM USER";
 		List<User> results = jdbcTemplate.query(sql, userMapper);
 		return results;
 	}
 	
 	// DELETE
 	
-	public void delete(User user) {
-		String sql = "delete from USER where USERID = ?";
-		jdbcTemplate.update(sql, user.getUserId());
+	public void deleteUserInfo(Long userId) {
+		String sql = "UPDATE USER SET EMAIL = 'deleted"+userId+"', PASSWORD = '', NAME = '', NICKNAME = 'deleted"+userId+"', "
+				+ "PHONENUMBER = '', IS_DELETED = '1' WHERE USERID = ?";
+		jdbcTemplate.update(sql, userId);
 	}
 	
 }

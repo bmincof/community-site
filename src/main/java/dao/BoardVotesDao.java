@@ -13,6 +13,13 @@ import org.springframework.jdbc.core.RowMapper;
 
 import dto.BoardVotesDto;
 
+/**
+ * SQL쿼리문을 통해 BOARD_VOTES 테이블로부터 데이터를 받아오는 기능을 수행하는 클래스
+ * 
+ * @author a
+ *
+ */
+
 public class BoardVotesDao {
 
 	@Autowired
@@ -26,7 +33,6 @@ public class BoardVotesDao {
 					BoardVotesDto boardVotes = new BoardVotesDto();
 							boardVotes.setUp(rs.getInt("UP"));
 							boardVotes.setDown(rs.getInt("DOWN"));
-							//rs.getInt("BOOKMARK")
 					return boardVotes;
 				}
 			};
@@ -35,8 +41,15 @@ public class BoardVotesDao {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
-	public BoardVotesDto selectByBoardId(long boardId) {
-		String sql = "select ifnull(sum(UP),0) as UP, ifnull(sum(DOWN),0) as DOWN from BOARD_VOTES where BOARDID=?";
+	/**
+	 * 일치하는 boardId를 가진 row들의 up 합계와 down 합계 정보를 갖는 BoardVotesDto 객체를 반환한다.
+	 * 
+	 * @param boardId
+	 * @return
+	 */
+	
+	public BoardVotesDto selectByBoardId(Long boardId) {
+		String sql = "SELECT IFNULL(SUM(UP),0) AS UP, IFNULL(SUM(DOWN),0) AS DOWN FROM BOARD_VOTES WHERE BOARDID = ?";
 		try {
 			BoardVotesDto result = jdbcTemplate.queryForObject(sql,bVotesMapper,boardId);
 			return result;
@@ -45,8 +58,16 @@ public class BoardVotesDao {
 		}
 	}
 
-	public BoardVotesDto selectByIds(long boardId, long userId) {
-		String sql = "select * from BOARD_VOTES where BOARDID=? and USERID=?";
+	/**
+	 * userId를 갖는 회원이 해당 게시글에서 투표한 내역을 반환한다. 
+	 * 
+	 * @param boardId
+	 * @param userId
+	 * @return
+	 */
+	
+	public BoardVotesDto selectByIds(Long boardId, Long userId) {
+		String sql = "SELECT * FROM BOARD_VOTES WHERE BOARDID = ? AND USERID = ?";
 		try {
 			BoardVotesDto result = jdbcTemplate.queryForObject(sql, bVotesMapper, boardId, userId);
 			return result;
@@ -55,21 +76,16 @@ public class BoardVotesDao {
 		}
 	}
 	
-//	public void updateUp(long boardId, long userId) {
-//		String sql = "update BOARD_VOTES set UP=1 where BOARDID=? and USERID=?";
-//		Object[] params = {boardId,userId};
-//		jdbcTemplate.update(sql,params);
-//	}
-//	
-//	public void updateDown(long boardId, long userId) {
-//		String sql = "update BOARD_VOTES set DOWN=1 where BOARDID=? and USERID=?";
-//		Object[] params = {boardId,userId};
-//		jdbcTemplate.update(sql,params);
-//	}
+	/**
+	 * 해당 게시글에 userId를 갖는 회원의 추천 내역을 저장한다.
+	 * 
+	 * @param boardId
+	 * @param userId
+	 */
 	
-	public void insertUp(long boardId, long userId) {
-		String sql = "insert into BOARD_VOTES (BOARDID, USERID, UP) "
-				+ "values (?, ?, ?)";
+	public void insertUp(Long boardId, Long userId) {
+		String sql = "INSERT INTO BOARD_VOTES (BOARDID, USERID, UP) "
+				+ "VALUES (?, ?, ?)";
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -82,9 +98,16 @@ public class BoardVotesDao {
 		});
 	}
 	
+	/**
+	 * 해당 게시글에 userId를 갖는 회원의 비추천 내역을 저장한다.
+	 * 
+	 * @param boardId
+	 * @param userId
+	 */
+	
 	public void insertDown(long boardId, long userId) {
-		String sql = "insert into BOARD_VOTES (BOARDID, USERID, DOWN) "
-				+ "values (?, ?, ?)";
+		String sql = "INSERT INTO BOARD_VOTES (BOARDID, USERID, DOWN) "
+				+ "VALUES (?, ?, ?)";
 		jdbcTemplate.update(new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -97,27 +120,29 @@ public class BoardVotesDao {
 		});
 	}
 	
+	/**
+	 * 일치하는 boardId를 가진 데이터를 삭제한다.
+	 * 게시글의 삭제에 사용되는 메서드
+	 * 
+	 * @param boardId
+	 */
+	
+	public void deleteByBoardId(Long boardId) {
+		String sql = "DELETE FROM BOARD_VOTES WHERE BOARDID = ?";
+		jdbcTemplate.update(sql, boardId);
+	}
+	
+	/**
+	 * 일치하는 boardId, userId를 가진 데이터를 삭제한다.
+	 * 추천/비추천 기능에 사용되는 메서드
+	 * 
+	 * @param boardId
+	 * @param userId
+	 */
+	
 	public void delete(long boardId, long userId) {
-		String sql = "delete from BOARD_VOTES where BOARDID=? and USERID=?";
+		String sql = "DELETE FROM BOARD_VOTES WHERE BOARDID = ? AND USERID = ?";
 		jdbcTemplate.update(sql, boardId, userId);
-	}
-	
-	public int countUp(long boardId) {
-		String sql = "count(UP) from BOARD_VOTES where BOARDID=?";
-		try {
-			return jdbcTemplate.queryForObject(sql, Integer.class, boardId);
-		} catch(EmptyResultDataAccessException e) {
-			return 0;
-		}
-	}
-	
-	public int countDown(long boardId) {
-		String sql = "count(DOWN) from BOARD_VOTES where BOARDID=?";
-		try {
-			return jdbcTemplate.queryForObject(sql, Integer.class, boardId);
-		} catch(EmptyResultDataAccessException e) {
-			return 0;
-		}
 	}
 	
 }

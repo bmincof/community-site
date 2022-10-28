@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,14 +71,14 @@ public class UserRegisterController {
 		}
 	}
 	
-	@RequestMapping("/withdraw")
-	public String withdrawCheck() {
-		return "user/withdrawCheck";
+	@RequestMapping("/delete")
+	public String deleteCheck() {
+		return "user/deleteCheck";
 	}
 	
-	@PostMapping("/user/withdrawPro")
-	public String withdrawPro(@RequestParam(value="check", defaultValue = "false") boolean check,
-								HttpServletRequest req) {
+	@PostMapping("/deleteDo")
+	public String deleteDo(@RequestParam(value="check", defaultValue = "false") boolean check,
+								HttpServletRequest req, RedirectAttributes rttr) {
 		if(!check) {
 			return "redirect:user/myPage";
 		}
@@ -86,9 +87,12 @@ public class UserRegisterController {
 				LoginUserVo user = (LoginUserVo) req.getSession().getAttribute("loginUserInfo");
 				long userId = user.getUserId();
 				userRegisterService.delete(userId);
-				return "redirect:/";
+				req.getSession().invalidate();
+				rttr.addFlashAttribute("msg", "회원탈퇴에 성공했습니다.");
+				
+				return "redirect:/main";
 			} catch(UserNotFoundException e) {
-				return "";
+				return "redirect:/main";
 			}
 		}
 	}

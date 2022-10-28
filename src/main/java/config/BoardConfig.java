@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import dao.BoardDao;
 import dao.BoardVotesDao;
 import dao.ReplyDao;
+import service.BoardDetailService;
+import service.BoardResponseService;
 import service.BoardService;
-import service.ReplyService;
-
 /**
  * 게시판 관련 기능 구현에 필요한 스프링 빈 클래스들
  * 
@@ -29,6 +29,11 @@ public class BoardConfig {
 	}
 	
 	@Bean
+	public BoardDetailService boardDetailService() {
+		return new BoardDetailService();
+	}
+	
+	@Bean
 	public BoardVotesDao boardVotesDao() {
 		return new BoardVotesDao();
 	}
@@ -38,9 +43,8 @@ public class BoardConfig {
 		return new ReplyDao();
 	}
 	
-	@Bean
-	public ReplyService replyService() {
-		return new ReplyService();
+	@Bean BoardResponseService boardResponseService() {
+		return new BoardResponseService();
 	}
 	
 }

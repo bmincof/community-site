@@ -10,12 +10,12 @@ package entity;
 
 public class BoardVotes {
 
-	private long boardId;
-	private long userId;
-	private int up;
-	private int down;
+	private Long boardId;
+	private Long userId;
+	private Integer up;
+	private Integer down;
 	
-	public BoardVotes(long boardId, long userId, int up, int down) {
+	public BoardVotes(Long boardId, Long userId, Integer up, Integer down) {
 		this.boardId = boardId;
 		this.userId = userId;
 		this.up = up;
@@ -23,19 +23,19 @@ public class BoardVotes {
 	}
 	
 	//getter
-	public long getBoardId() {
+	public Long getBoardId() {
 		return boardId;
 	}
 	
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 	
-	public int getUp() {
+	public Integer getUp() {
 		return up;
 	}
 	
-	public int getDown() {
+	public Integer getDown() {
 		return down;
 	}
 	

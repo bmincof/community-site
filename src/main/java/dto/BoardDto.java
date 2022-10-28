@@ -1,28 +1,26 @@
 package dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 public class BoardDto {
 
-	private long boardId;
-	
-	@NotBlank
+	private Long boardId;
 	private String title;
-	
-	@NotBlank
 	private String content;
-	private long writer;
+	private Long writer;
 	private String writerName;
 	private LocalDateTime writtenDate;
-	private int views;
+	private Integer views;
 	private BoardVotesDto boardVotesDto;
-	private int type;
-	private boolean isNotice;
+	private Integer type;
+	private Boolean isNotice;
+	private List<ReplyDto> replies;
 	
 	//setter
-	public void setBoardId(long boardId) {
+	public void setBoardId(Long boardId) {
 		this.boardId = boardId;
 	}
 	
@@ -34,7 +32,7 @@ public class BoardDto {
 		this.content = content;
 	}
 	
-	public void setWriter(long writer) {
+	public void setWriter(Long writer) {
 		this.writer = writer;
 	}
 	
@@ -46,7 +44,7 @@ public class BoardDto {
 		this.writtenDate = writtenDate;
 	}
 	
-	public void setViews(int views) {
+	public void setViews(Integer views) {
 		this.views = views;
 	}
 	
@@ -54,16 +52,20 @@ public class BoardDto {
 		this.boardVotesDto = boardVotesDto;
 	}
 	
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 	
-	public void setIsNotice(boolean isNotice) {
+	public void setIsNotice(Boolean isNotice) {
 		this.isNotice = isNotice;
 	}
 	
+	public void setReplies(List<ReplyDto> replies) {
+		this.replies = replies;
+	}
+	
 	//getter
-	public long getBoardId() {
+	public Long getBoardId() {
 		return boardId;
 	}
 	
@@ -75,7 +77,7 @@ public class BoardDto {
 		return content;
 	}
 	
-	public long getWriter() {
+	public Long getWriter() {
 		return writer;
 	}
 	
@@ -87,7 +89,7 @@ public class BoardDto {
 		return writtenDate;
 	}
 	
-	public int getViews() {
+	public Integer getViews() {
 		return views;
 	}
 	
@@ -95,12 +97,16 @@ public class BoardDto {
 		return boardVotesDto;
 	}
 	
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
 	
-	public boolean getIsNotice() {
+	public Boolean getIsNotice() {
 		return isNotice;
+	}
+	
+	public List<ReplyDto> getReplies() {
+		return replies;
 	}
 	
 }

@@ -4,10 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import controller.BoardController;
+import controller.BoardDetailController;
+import controller.BoardResponseController;
 import controller.UserController;
 import controller.UserInfoController;
 import controller.UserLoginController;
 import controller.UserRegisterController;
+import service.BoardDetailService;
 
 @Configuration
 public class ControllerConfig {
@@ -35,6 +38,16 @@ public class ControllerConfig {
 	@Bean
 	public BoardController boardController() {
 		return new BoardController();
+	}
+	
+	@Bean
+	public BoardDetailController boardDetailController() {
+		return new BoardDetailController();
+	}
+	
+	@Bean
+	public BoardResponseController boardResponseController() {
+		return new BoardResponseController();
 	}
 	
 }

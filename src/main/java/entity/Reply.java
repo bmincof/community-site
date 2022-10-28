@@ -12,14 +12,14 @@ import java.time.LocalDateTime;
 
 public class Reply {
 
-	private long replyId;
-	private long boardId;
-	private long writer;
-	private long ref;
+	private Long replyId;
+	private Long boardId;
+	private Long writer;
+	private Long ref;
 	private String content;
 	private LocalDateTime writtenDate;
 	
-	public Reply(long boardId, long writer, long ref,
+	public Reply(Long boardId, Long writer, Long ref,
 			String content, LocalDateTime writtenDate) {
 		this.boardId = boardId;
 		this.writer = writer;
@@ -28,24 +28,24 @@ public class Reply {
 		this.writtenDate = writtenDate;
 	}
 	
-	public void setReplyId(long replyId) {
+	public void setReplyId(Long replyId) {
 		this.replyId = replyId;
 	}
 	
 	//getter
-	public long getReplyId() {
+	public Long getReplyId() {
 		return replyId;
 	}
 	
-	public long getBoardId() {
+	public Long getBoardId() {
 		return boardId;
 	}
 	
-	public long getWriter() {
+	public Long getWriter() {
 		return writer;
 	}
 	
-	public long getRef() {
+	public Long getRef() {
 		return ref;
 	}
 	

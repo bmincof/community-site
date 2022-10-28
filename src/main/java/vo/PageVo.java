@@ -2,17 +2,17 @@ package vo;
 
 public class PageVo {
 	//생성자에서 setter를 쓰는게 맞나?
-	private int totalPost;
-	private int postPerPage = 10;
-	private int curPage = 1;
-	private int totPage;		// count / postPerPage
+	private Integer totalPost;
+	private Integer postPerPage = 10;
+	private Integer curPage = 1;
+	private Integer totPage;		// count / postPerPage
 	// 하단 페이지 선택 바에 나오는 값들
-	private int startPage;
-	private int endPage;
-	private boolean isStartPage;
-	private boolean isLastPage;
+	private Integer startPage;
+	private Integer endPage;
+	private Boolean isStartPage;
+	private Boolean isLastPage;
 	
-	public PageVo(int totalPost, int curPage){
+	public PageVo(Integer totalPost, Integer curPage){
 		this.totalPost = totalPost;
 		this.curPage = curPage;
 		calcTotalPage(totalPost, postPerPage);
@@ -21,83 +21,59 @@ public class PageVo {
 		this.isLastPage = checkIsLastPage();
 	}
 	
-	public void calcTotalPage(int totalPost, int postPerPage) {
-		setTotalPage((int) Math.ceil((double) totalPost / postPerPage));
+	public void calcTotalPage(Integer totalPost, Integer postPerPage) {
+		this.totPage = ((int) Math.ceil((double) totalPost / postPerPage));
 	}
 	
-	public void calcStartEndPage(int curPage, int totPage) {
+	public void calcStartEndPage(Integer curPage, Integer totPage) {
 		int startPage = (curPage-1) / 10 * 10 + 1;
 		int endPage = startPage + 9;
 		if (endPage > totPage) {
 			endPage = totPage;
 		}
-		setStartPage(startPage);
-		setEndPage(endPage);
+		this.startPage = startPage;
+		this.endPage = endPage;
 	}
 	//logic
-	public boolean checkIsStartPage() {
+	public Boolean checkIsStartPage() {
 		return startPage == 1 ? true : false;
 	}
 	
-	public boolean checkIsLastPage() {
+	public Boolean checkIsLastPage() {
 		return endPage == totPage ? true : false;
 	}
 	
-	//setter
-	public void setTotalPost(int totalPost) {
-		this.totalPost = totalPost;
-	}
-	
-	public void setTotalPage(int totPage) {
-		this.totPage = totPage;
-	}
-	
-	public void setStartPage(int startPage) {
-		this.startPage = startPage;
-	}
-	
-	public void setEndPage(int endPage) {
-		this.endPage = endPage;
-	}
-	
-	public void setIsStartPage(boolean isStartPage) {
-		this.isStartPage = isStartPage;
-	}
-	
-	public void setIsLastPage(boolean isLastPage) {
-		this.isLastPage = isLastPage;
-	}
-	
 	//getter
-	public int getTotalPost() {
+	public Integer getTotalPost() {
 		return totalPost;
 	}
 	
-	public int getPostPerPage() {
+	public Integer getPostPerPage() {
 		return postPerPage;
 	}
 	
-	public int getCurPage() {
+	public Integer getCurPage() {
 		return curPage;
 	}
 	
-	public int getTotPage() {
+	public Integer getTotPage() {
 		return totPage;
 	}
 	
-	public int getStartPage() {
+	public Integer getStartPage() {
 		return startPage;
 	}
 	
-	public int getEndPage() {
+	public Integer getEndPage() {
 		return endPage;
 	}
 	
-	public boolean getIsStartPage() {
+	public Boolean getIsStartPage() {
 		return isStartPage;
 	}
 	
-	public boolean getIsLastPage() {
+	public Boolean getIsLastPage() {
 		return isLastPage;
 	}
+	
 }

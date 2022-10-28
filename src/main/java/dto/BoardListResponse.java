@@ -1,0 +1,46 @@
+package dto;
+
+import java.util.List;
+
+public class BoardListResponse {
+	private Integer boardType;
+	private List<BoardDto> notices;
+	private List<BoardDto> hotPosts;
+	private List<BoardDto> posts;
+	
+	public BoardListResponse() {
+	}
+	
+	public BoardListResponse(Integer boardType) {
+		this.boardType = boardType;
+	}
+	
+	public void setNotices(List<BoardDto> notices) {
+		this.notices = notices;
+	}
+	
+	public void setHotPosts(List<BoardDto> hotPosts) {
+		this.hotPosts = hotPosts;
+	}
+	
+	public void setPosts(List<BoardDto> posts) {
+		this.posts = posts;
+	}
+	
+	public Integer getBoardType() {
+		return boardType;
+	}
+	
+	public List<BoardDto> getNotices() {
+		return notices;
+	}
+	
+	public List<BoardDto> getHotPosts() {
+		return hotPosts;
+	}
+	
+	public List<BoardDto> getPosts() {
+		return posts;
+	}
+	
+}

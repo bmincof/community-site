@@ -1,28 +1,29 @@
-package vo;
+package dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ReplyVo {
+public class ReplyDto {
 
-	private long replyId;
-	private long boardId;
-	private long writer;
+	private Long replyId;
+	private Long boardId;
+	private Long writer;
 	private String writerName;
 	private String content;
 	private LocalDateTime writtenDate;
-	private List<ReplyVo> childReplies;
+	private List<ReplyDto> childReplies;
+	private Boolean isDeleted;
 	
 	//setter
-	public void setReplyId(long replyId) {
+	public void setReplyId(Long replyId) {
 		this.replyId = replyId;
 	}
 	
-	public void setBoardId(long boardId) {
+	public void setBoardId(Long boardId) {
 		this.boardId = boardId;
 	}
 	
-	public void setWriter(long writer) {
+	public void setWriter(Long writer) {
 		this.writer = writer;
 	}
 	
@@ -38,20 +39,24 @@ public class ReplyVo {
 		this.writtenDate = writtenDate;
 	}
 	
-	public void setChildReplies(List<ReplyVo> childReplies) {
+	public void setChildReplies(List<ReplyDto> childReplies) {
 		this.childReplies = childReplies;
 	}
 	
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+	
 	//getter
-	public long getReplyId() {
+	public Long getReplyId() {
 		return replyId;
 	}
 	
-	public long getBoardId() {
+	public Long getBoardId() {
 		return boardId;
 	}
 	
-	public long getWriter() {
+	public Long getWriter() {
 		return writer;
 	}
 	
@@ -67,8 +72,12 @@ public class ReplyVo {
 		return writtenDate;
 	}
 	
-	public List<ReplyVo> getChildReplies() {
+	public List<ReplyDto> getChildReplies() {
 		return childReplies;
+	}
+	
+	public Boolean getIsDeleted() {
+		return isDeleted;
 	}
 	
 }

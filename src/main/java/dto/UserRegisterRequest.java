@@ -54,7 +54,7 @@ public class UserRegisterRequest {
 		this.phoneNumber = phoneNumber;
 	}
 	
-	public void setIsAdmin(boolean isAdmin) {
+	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 	
@@ -79,7 +79,7 @@ public class UserRegisterRequest {
 		return phoneNumber;
 	}
 	
-	public boolean getIsAdmin() {
+	public Boolean getIsAdmin() {
 		return isAdmin;
 	}
 	
