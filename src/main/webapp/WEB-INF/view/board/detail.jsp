@@ -54,9 +54,13 @@
 			작성자 <b>${replyP.writerName }</b>
 			<c:if test="${!empty loginUserInfo }">
 				<button onclick="reply('<c:out value="${replyP.replyId }" />','<c:out value="${replyP.writerName }" />');">답글 작성</button> 
-				<c:if test="${loginUserInfo.userId eq replyP.writer and !replyP.isDeleted }">
-					<button onclick="location.href='/board/reply/modify?replyId=${replyP.replyId}';">수정</button>
-					<button onclick="location.href='/board/reply/delete?replyId=${replyP.replyId}&boardId=${detail.boardId }';">삭제</button>
+				<c:if test="${!replyP.isDeleted }">
+					<c:if test="${loginUserInfo.userId eq replyP.writer }">
+						<button onclick="location.href='/board/reply/modify?replyId=${replyP.replyId}';">수정</button>
+					</c:if>
+					<c:if test="${loginUserInfo.userId eq replyP.writer or loginUserInfo.isAdmin }">
+						<button onclick="location.href='/board/reply/delete?replyId=${replyP.replyId}&boardId=${detail.boardId }';">삭제</button>
+					</c:if>
 				</c:if>
 			</c:if><br>
 			<c:choose>
@@ -66,9 +70,13 @@
 			${replyP.writtenDate }<hr>
 			<c:forEach var="replyC" items="${replyP.childReplies }">
 				&nbsp;&nbsp;&nbsp;작성자 <b>${replyC.writerName }</b> 
-				<c:if test="${loginUserInfo.userId eq replyC.writer and !replyC.isDeleted }">
-					<button onclick="location.href='/board/reply/modify?replyId=${replyC.replyId}';">수정</button>
-					<button onclick="location.href='/board/reply/delete?replyId=${replyC.replyId}&boardId=${detail.boardId }';">삭제</button>
+				<c:if test="${!empty loginUserInfo and !replyC.isDeleted }">
+					<c:if test="${loginUserInfo.userId eq replyC.writer }">
+						<button onclick="location.href='/board/reply/modify?replyId=${replyC.replyId}';">수정</button>
+					</c:if>
+					<c:if test="${loginUserInfo.userId eq replyC.writer or loginUserInfo.isAdmin }">
+						<button onclick="location.href='/board/reply/delete?replyId=${replyC.replyId}&boardId=${detail.boardId }';">삭제</button>
+					</c:if>
 				</c:if><br>
 				<c:choose>
 					<c:when test="${!replyC.isDeleted }">&nbsp;&nbsp;&nbsp;${replyC.content }</c:when>

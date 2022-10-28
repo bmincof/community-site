@@ -10,7 +10,6 @@ import controller.UserController;
 import controller.UserInfoController;
 import controller.UserLoginController;
 import controller.UserRegisterController;
-import service.BoardDetailService;
 
 @Configuration
 public class ControllerConfig {

@@ -43,8 +43,5 @@ public class UserConfig {
 	public UserInfoFindService userInfoFindService() {
 		return new UserInfoFindService();
 	}
-
-	
-
 	
 }

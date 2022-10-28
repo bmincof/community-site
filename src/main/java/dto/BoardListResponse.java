@@ -2,6 +2,13 @@ package dto;
 
 import java.util.List;
 
+/**
+ * 카테고리별 게시판에서 게시글 리스트를 보여주기 위해 필요한 정보들을 담은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class BoardListResponse {
 	private Integer boardType;
 	private List<BoardDto> notices;

@@ -10,19 +10,28 @@
 </head>
 <body>
 	<h2>비밀번호 변경</h2>
-	<form:form action="changePassword" onsubmit="return checkPwd()" method="post" modelAttribute="userInfoChangeRequest">
-		<c:if test="${!empty loginUserInfo }">
-			<input type="hidden" name="userId" value="${loginUserInfo.userId }">
-		</c:if>
-		<c:if test="${empty loginUserInfo }">
-			<input type="hidden" name="userId" value="${userId }">
-		</c:if>
+	<form:form action="/user/changePassword" onsubmit="return checkPwd()" method="post" modelAttribute="userInfoChangeRequest">
+		<c:choose>
+			<c:when test="${empty loginUserInfo or loginUserInfo.isAdmin }">
+				<input type="hidden" name="userId" value="${userId }">
+			</c:when>
+			<c:otherwise>
+					<input type="hidden" name="userId" value="${loginUserInfo.userId }">
+			</c:otherwise>
+		</c:choose>
 		새로운 비밀번호 : <input type="text" name="newPassword" id="pwd" onchange="checkPwd()"><span id="length"></span>
 		<form:errors path="newPassword" /><br>
 		비밀번호 확인 : <input type="text" name="confirmNewPassword" id="check" onchange="checkPwd()"><span id="same"></span><br>
 		<input type="submit" value="변경">
 		<c:if test="${!empty loginUserInfo }">
-			<button type="button" onclick="location.href='myPage';">돌아가기</button>
+			<c:choose>
+				<c:when test="${loginUserInfo.isAdmin }">
+					<button type="button" onclick="location.href='/admin/list';">돌아가기</button>
+				</c:when>
+				<c:otherwise>
+					<button type="button" onclick="location.href='/user/myPage';">돌아가기</button>
+				</c:otherwise>
+			</c:choose>
 		</c:if>
 		<c:if test="${empty loginUserInfo }">
 			<button type="button" onclick="location.href='/main';">돌아가기</button>

@@ -1,11 +1,18 @@
 package vo;
 
+/**
+ * 페이지 처리에 필요한 정보들을 모아 놓은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class PageVo {
-	//생성자에서 setter를 쓰는게 맞나?
 	private Integer totalPost;
 	private Integer postPerPage = 10;
 	private Integer curPage = 1;
 	private Integer totPage;		// count / postPerPage
+	
 	// 하단 페이지 선택 바에 나오는 값들
 	private Integer startPage;
 	private Integer endPage;

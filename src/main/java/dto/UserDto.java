@@ -2,10 +2,17 @@ package dto;
 
 import java.time.LocalDateTime;
 
+/**
+ * 회원 정보를 뷰로 전달하기 위한 객체
+ * 
+ * @author a
+ *
+ */
+
 public class UserDto {
 
-	private Long userId;	// serial number
-	private String email; // for login
+	private Long userId;
+	private String email;
 	private String password;
 	private String name;
 	private String nickname;

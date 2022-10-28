@@ -27,8 +27,7 @@
 			<c:if test="${loginUserInfo.isAdmin }">
 			<h3><spring:message code="AdminPage" /></h3>
 			<div>
-				<a href="<c:url value="/user/list" />" ><spring:message code="manage.user" /></a>
-				<a href="<c:url value="/user/myPage" />" ><spring:message code="manage.board" /></a>	
+				<a href="<c:url value="/admin/list" />" ><spring:message code="manage.user" /></a>
 			</div>
 			</c:if>	
 		</c:if>

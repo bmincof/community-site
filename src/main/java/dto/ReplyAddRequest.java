@@ -2,6 +2,13 @@ package dto;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * 새로운 댓글을 작성하기 위한 정보들을 담은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class ReplyAddRequest {
 
 	private Long boardId;

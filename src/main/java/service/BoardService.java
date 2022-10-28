@@ -1,18 +1,9 @@
 package service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.BoardDao;
-import dao.BoardVotesDao;
-import dto.BoardDto;
 import dto.BoardListResponse;
-import dto.BoardModifyRequest;
-import dto.BoardPostRequest;
-import dto.BoardVotesDto;
-import entity.Board;
 import vo.PageVo;
 import vo.SearchVo;
 

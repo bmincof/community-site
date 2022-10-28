@@ -3,7 +3,12 @@ package dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.validator.constraints.NotBlank;
+/**
+ * 게시판 및 게시글 상세보기에서 게시글의 정보를 보여주기 위한 객체
+ * 
+ * @author a
+ *
+ */
 
 public class BoardDto {
 

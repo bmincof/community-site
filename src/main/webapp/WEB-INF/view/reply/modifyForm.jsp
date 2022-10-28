@@ -23,6 +23,7 @@
 		<input type="hidden" name="replyId" value="${reply.replyId }">
 		<input type="text" name="content" placeholder="수정할 내용을 입력하세요.">
 		<button type="submit">수정</button>
+		<button onclick="location.href='/board/detail/${reply.boardId}';">돌아가기</button>
 	</form>
 </body>
 <script>

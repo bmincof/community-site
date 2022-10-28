@@ -4,6 +4,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * 댓글을 수정하기 위해 필요한 정보들을 담은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class BoardModifyRequest {
 
 	private Long boardId;

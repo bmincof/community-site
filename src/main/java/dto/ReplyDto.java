@@ -3,6 +3,13 @@ package dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 댓글 정보를 뷰로 전달하기 위한 객체
+ * 
+ * @author a
+ *
+ */
+
 public class ReplyDto {
 
 	private Long replyId;

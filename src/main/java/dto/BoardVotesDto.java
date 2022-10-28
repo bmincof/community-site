@@ -1,5 +1,12 @@
 package dto;
 
+/**
+ * 게시글의 추천 정보를 뷰로 전달하기 위한 객체
+ * 
+ * @author a
+ *
+ */
+
 public class BoardVotesDto {
 
 	private Integer up;

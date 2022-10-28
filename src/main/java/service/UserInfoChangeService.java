@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import dao.UserDao;
@@ -27,6 +29,10 @@ public class UserInfoChangeService {
 	 * 
 	 * @param req
 	 */
+	
+	public List<User> showUserList() {
+		return userDao.selectAll();
+	}
 	
 	public void changePassword(UserInfoChangeRequest req) {
 		User user = userDao.selectById(req.getUserId());

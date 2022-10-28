@@ -55,6 +55,7 @@ public class UserInfoController {
 	
 	@GetMapping("/changePassword")
 	public String changePasswordForm() {
+		
 		return "user/changePasswordForm";
 	}
 	
@@ -74,12 +75,12 @@ public class UserInfoController {
 		
 		try {
 			userInfoChangeService.changePassword(req);
-			Object userInfo = hreq.getSession().getAttribute("loginUserInfo");
-			if(userInfo == null) {
-				return "main";
+			LoginUserVo userInfo = (LoginUserVo) hreq.getSession().getAttribute("loginUserInfo");
+			if(userInfo != null) {
+				return userInfo.getIsAdmin() ? "redirect:/admin/list" : "user/myPage";
 			}
 			else {
-				return "user/myPage";
+				return "main";
 			}
 		} catch(UserNotFoundException e) {
 			model.addAttribute("msg", "회원정보를 찾는 중 오류가 발생했습니다. 종료 후 다시 시도해주십시오.");
@@ -157,7 +158,7 @@ public class UserInfoController {
 	// 회원정보 찾기 요청 처리
 	
 	@GetMapping("/findEmail")
-	public String findUserEmailForm() {
+	public String findUserEmailForm(Long userId) {
 		return "user/findEmailForm";
 	}
 	

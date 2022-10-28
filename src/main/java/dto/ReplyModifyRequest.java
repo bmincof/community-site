@@ -4,6 +4,13 @@ import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * 댓글 수정을 요청하기 위한 정보들을 담은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class ReplyModifyRequest {
 
 	private Long replyId;

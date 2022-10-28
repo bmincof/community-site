@@ -1,5 +1,12 @@
 package vo;
 
+/**
+ * 게시판 내 검색에 필요한 정보들을 모아 놓은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class SearchVo {
 
 	private String field;
@@ -7,15 +14,6 @@ public class SearchVo {
 	
 	public SearchVo(String field, String keyword) {
 		this.field = field;
-		this.keyword = keyword;
-	}
-	
-	
-	public void setField(String field) {
-		this.field = field;
-	}
-	
-	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
 	

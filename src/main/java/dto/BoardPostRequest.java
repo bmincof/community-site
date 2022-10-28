@@ -4,6 +4,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * 새로운 게시글을 작성할 때 필요한 정보들을 담은 객체
+ * 
+ * @author a
+ *
+ */
+
 public class BoardPostRequest {
 
 	@NotBlank

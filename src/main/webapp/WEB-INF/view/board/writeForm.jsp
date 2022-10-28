@@ -31,7 +31,7 @@
 				<textarea name="content" rows=10 style="width:50%; resize:none"></textarea>
 			</div>
 			<input type="submit" value="작성">
-			<button type="button" onclick="location.href='javascript:history.back();';">돌아가기</button>
+			<button type="button" onclick="location.href='/board/list';">돌아가기</button>
 	</form>
 </body>
 <script>

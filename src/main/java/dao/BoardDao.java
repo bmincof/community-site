@@ -11,16 +11,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 import dto.BoardDto;
-import dto.BoardListResponse;
 import dto.BoardModifyRequest;
 import dto.BoardVotesDto;
 import entity.Board;
-import entity.User;
-import vo.PageVo;
 
 /**
  * SQL쿼리문을 통해 BOARD 테이블로부터 데이터를 받아오는 기능을 수행하는 클래스

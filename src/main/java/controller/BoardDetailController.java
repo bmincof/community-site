@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import dto.BoardDto;
 import dto.BoardModifyRequest;
 import dto.BoardPostRequest;
-import dto.ReplyDto;
 import exception.BoardNotFoundException;
 import service.BoardDetailService;
 import vo.LoginUserVo;

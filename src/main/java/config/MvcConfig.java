@@ -10,8 +10,6 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import aop.LoginCheckIntercepter;
-
 /**
  * 서블릿, 스프링 기본 제공 API 관련 스프링 빈 설정 클래스
  * 
