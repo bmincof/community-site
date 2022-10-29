@@ -3,7 +3,6 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,8 +32,12 @@ import vo.LoginUserVo;
 @RequestMapping("/board")
 public class BoardResponseController {
 	
-	@Autowired
-	private BoardResponseService boardResponseService;
+	private final BoardResponseService boardResponseService;
+
+	public BoardResponseController(BoardResponseService boardResponseService) {
+		super();
+		this.boardResponseService = boardResponseService;
+	}
 
 	/**
 	 * 추천 버튼을 눌렀을 때 수행되는 메서드

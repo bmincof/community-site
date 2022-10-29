@@ -3,7 +3,6 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,14 +28,13 @@ import vo.LoginUserVo;
 @RequestMapping("/user")
 public class UserRegisterController {
 
-	@Autowired
 	private UserRegisterService userRegisterService;
 	
-	public void setRegisterService(
-			UserRegisterService userRegisterService) {
+	public UserRegisterController(UserRegisterService userRegisterService) {
+		super();
 		this.userRegisterService = userRegisterService;
 	}
-	
+
 	@RequestMapping("/register")
 	public String registerForm() {
 		return "user/registerForm";

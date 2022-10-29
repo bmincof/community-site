@@ -1,6 +1,6 @@
 package service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.UserDao;
 import entity.User;
@@ -15,12 +15,13 @@ import vo.LoginUserVo;
  *
  */
 
+@Service
 public class UserLoginService {
 
-	@Autowired
-	private UserDao userDao;
+	private final UserDao userDao;
 
-	public void setUserDao(UserDao userDao) {
+	public UserLoginService(UserDao userDao) {
+		super();
 		this.userDao = userDao;
 	}
 	

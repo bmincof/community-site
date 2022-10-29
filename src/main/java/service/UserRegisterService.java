@@ -2,7 +2,7 @@ package service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.UserDao;
 import dto.UserRegisterRequest;
@@ -18,15 +18,16 @@ import exception.UserNotFoundException;
  *
  */
 
+@Service
 public class UserRegisterService {
 
-	@Autowired
-	UserDao userDao;
+	private final UserDao userDao;
 	
-	public void setUserDao(UserDao userDao) {
+	public UserRegisterService(UserDao userDao) {
+		super();
 		this.userDao = userDao;
 	}
-	
+
 	/**
 	 * 중복된 이메일이나 닉네임이 없을 때 새로운 회원정보를 DB에 추가하는 기능
 	 * 

@@ -1,21 +1,22 @@
 package service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.BoardDao;
 import dto.BoardListResponse;
 import vo.PageVo;
 import vo.SearchVo;
 
+@Service
 public class BoardService {
 
-	@Autowired
-	private BoardDao boardDao;
+	private final BoardDao boardDao;
 	
-	public void setBoardDao(BoardDao boardDao) {
+	public BoardService(BoardDao boardDao) {
+		super();
 		this.boardDao = boardDao;
 	}
-	
+
 	public int count(SearchVo searchVo) {
 		return boardDao.count(searchVo.getField(), searchVo.getKeyword());
 	}

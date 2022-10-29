@@ -2,8 +2,8 @@ package config;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
  */
 
 @Configuration
-@Import({UserConfig.class, BoardConfig.class})
+@ComponentScan(basePackages = {"dao","service","controller"})
 public class Configs {
 
 	

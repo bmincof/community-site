@@ -1,6 +1,5 @@
 package controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +22,13 @@ import vo.SearchVo;
 @RequestMapping("/board")
 public class BoardController {
 
-	@Autowired
-	private BoardService boardService;
-	
-	public void setBoardService(BoardService boardService) {
+	private final BoardService boardService;
+			
+	public BoardController(BoardService boardService) {
+		super();
 		this.boardService = boardService;
 	}
-		
+
 	/**
 	 * 인기글과 검색 조건에 일치하는 공지가 아닌 게시글들의 목록을 카테고리에 관계없이 페이징하여 출력하는 메서드
 	 * 

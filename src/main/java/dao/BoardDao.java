@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import dto.BoardDto;
 import dto.BoardModifyRequest;
@@ -24,15 +24,16 @@ import entity.Board;
  *
  */
 
+@Repository
 public class BoardDao {	
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-		
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+	private final JdbcTemplate jdbcTemplate;
+	
+	public BoardDao(JdbcTemplate jdbcTemplate) {
+		super();
 		this.jdbcTemplate = jdbcTemplate;
 	}
-	
+
 	/**
 	 * 게시글 목록에서 보여지는 정보들을 매핑하는 객체
 	 * 

@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +20,15 @@ import service.UserRegisterService;
 @Controller
 public class UserController {
 
-	@Autowired
-	private UserInfoChangeService userInfoChangeService;
-	@Autowired
-	private UserRegisterService userRegisterService;
+	private final UserInfoChangeService userInfoChangeService;
+	private final UserRegisterService userRegisterService;
 	
+	public UserController(UserInfoChangeService userInfoChangeService, UserRegisterService userRegisterService) {
+		super();
+		this.userInfoChangeService = userInfoChangeService;
+		this.userRegisterService = userRegisterService;
+	}
+
 	/**
 	 * 비밀번호 변경 및 탈퇴 처리를 진행할 수 있는 회원 목록을 보여주는 메서드
 	 * 

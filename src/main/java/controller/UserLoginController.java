@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -29,14 +28,13 @@ import vo.LoginUserVo;
 @RequestMapping("/user")
 public class UserLoginController {
 
-	@Autowired
-	private UserLoginService userLoginService;
+	private final UserLoginService userLoginService;
 	
-	public void setUserLoginService( 
-			UserLoginService userLoginService) {
+	public UserLoginController(UserLoginService userLoginService) {
+		super();
 		this.userLoginService = userLoginService;
 	}
-	
+
 	@RequestMapping("/login")
 	public String userLogin() {
 		

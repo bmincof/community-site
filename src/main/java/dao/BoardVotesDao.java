@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import dto.BoardVotesDto;
 
@@ -20,11 +20,15 @@ import dto.BoardVotesDto;
  *
  */
 
+@Repository
 public class BoardVotesDao {
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
+	private final JdbcTemplate jdbcTemplate;
+
+	public BoardVotesDao(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 	private RowMapper<BoardVotesDto> bVotesMapper =
 			new RowMapper<BoardVotesDto>() {
 				@Override
@@ -36,10 +40,6 @@ public class BoardVotesDao {
 					return boardVotes;
 				}
 			};
-			
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 	
 	/**
 	 * 일치하는 boardId를 가진 row들의 up 합계와 down 합계 정보를 갖는 BoardVotesDto 객체를 반환한다.

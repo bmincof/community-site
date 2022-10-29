@@ -2,7 +2,7 @@ package service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.UserDao;
 import dto.UserInfoChangeRequest;
@@ -15,15 +15,16 @@ import exception.UserNotFoundException;
  * 
  */
 
+@Service
 public class UserInfoChangeService {
 
-	@Autowired
-	private UserDao userDao;
-	
-	public void setUserDao(UserDao userDao) {
+	private final UserDao userDao;
+		
+	public UserInfoChangeService(UserDao userDao) {
+		super();
 		this.userDao = userDao;
 	}
-	
+
 	/**
 	 * 입력받은 정보와 일치하는 회원의 비밀번호를 새로운 비밀번호로 변경하는 메서드
 	 * 

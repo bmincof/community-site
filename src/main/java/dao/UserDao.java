@@ -7,11 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import entity.User;
 
@@ -20,13 +20,18 @@ import entity.User;
  * 
  * @author a
  *
+ *
  */
 
+@Repository
 public class UserDao {
 	
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 	
+	public UserDao(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 	private RowMapper<User> userMapper = new RowMapper<User>() {
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -44,10 +49,6 @@ public class UserDao {
 			return user;
 		}
 	};
-		
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 	
 	// CREATE
 	

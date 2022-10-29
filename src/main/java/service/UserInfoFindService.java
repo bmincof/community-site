@@ -3,7 +3,7 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.UserDao;
 import dto.UserInfoFindRequest;
@@ -18,15 +18,16 @@ import exception.WrongUserInfoException;
  *
  */
 
+@Service
 public class UserInfoFindService {
 
-	@Autowired
-	private UserDao userDao;
+	private final UserDao userDao;
 	
-	public void setUserDao(UserDao userDao) {
+	public UserInfoFindService(UserDao userDao) {
+		super();
 		this.userDao = userDao;
 	}
-	
+
 	/**
 	 * 입력받은 회원 정보와 일치하는 이메일 목록을 반환한다.
 	 * 

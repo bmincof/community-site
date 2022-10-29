@@ -3,7 +3,6 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -30,8 +29,12 @@ import vo.LoginUserVo;
 @RequestMapping("/board")
 public class BoardDetailController {
 	
-	@Autowired
-	private BoardDetailService boardDetailService;
+	private final BoardDetailService boardDetailService;
+	
+	public BoardDetailController(BoardDetailService boardDetailService) {
+		super();
+		this.boardDetailService = boardDetailService;
+	}
 
 	/**
 	 * 게시글 작성 화면을 출력하는 메서드

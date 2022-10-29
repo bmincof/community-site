@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import dto.ReplyDto;
 import entity.Reply;
@@ -23,11 +23,15 @@ import entity.Reply;
  *
  */
 
+@Repository
 public class ReplyDao {
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 	
+	public ReplyDao(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
 	private RowMapper<ReplyDto> replyMapper =
 			new RowMapper<ReplyDto>() {
 				@Override
@@ -49,10 +53,6 @@ public class ReplyDao {
 					return reply;
 				}
 	};
-	
-	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 	
 	public void insert(Reply reply) {
 		String sql = "INSERT INTO REPLY (BOARDID, WRITER, REF, CONTENT, WRITTEN_DATE) " +

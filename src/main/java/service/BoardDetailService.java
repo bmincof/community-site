@@ -3,7 +3,7 @@ package service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.BoardDao;
 import dao.BoardVotesDao;
@@ -22,15 +22,20 @@ import exception.BoardNotFoundException;
  *
  */
 
+@Service
 public class BoardDetailService {
 
-	@Autowired
-	private BoardDao boardDao;
-	@Autowired
-	private BoardVotesDao boardVotesDao;
-	@Autowired
-	private ReplyDao replyDao;
+	private final BoardDao boardDao;
+	private final BoardVotesDao boardVotesDao;
+	private final ReplyDao replyDao;
 	
+	public BoardDetailService(BoardDao boardDao, BoardVotesDao boardVotesDao, ReplyDao replyDao) {
+		super();
+		this.boardDao = boardDao;
+		this.boardVotesDao = boardVotesDao;
+		this.replyDao = replyDao;
+	}
+
 	/**
 	 * 입력받은 정보와 DB에 필요한 정보를 추가하여 게시글 테이블에 저장을 시도하는 메서드
 	 * 

@@ -2,7 +2,7 @@ package service;
 
 import java.time.LocalDateTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.BoardDao;
 import dao.BoardVotesDao;
@@ -22,16 +22,19 @@ import exception.WrongBoardReplyMatchException;
  *
  */
 
+@Service
 public class BoardResponseService {
 
-	@Autowired
-	private BoardDao boardDao;
-	
-	@Autowired
-	private BoardVotesDao boardVotesDao;
-	
-	@Autowired
-	private ReplyDao replyDao;
+	private final BoardDao boardDao;
+	private final BoardVotesDao boardVotesDao;
+	private final ReplyDao replyDao;
+
+	public BoardResponseService(BoardDao boardDao, BoardVotesDao boardVotesDao, ReplyDao replyDao) {
+		super();
+		this.boardDao = boardDao;
+		this.boardVotesDao = boardVotesDao;
+		this.replyDao = replyDao;
+	}
 
 	/**
 	 * 1. userId로 해당 게시글에 투표한 내역이 있을 경우 :

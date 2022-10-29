@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -34,23 +33,15 @@ import service.UserInfoChangeService;
 @RequestMapping("/user")
 public class UserInfoController {
 
-	@Autowired
-	private UserInfoChangeService userInfoChangeService;
+	private final UserInfoChangeService userInfoChangeService;
+	private final UserInfoFindService userInfoFindService;
 	
-	@Autowired
-	private UserInfoFindService userInfoFindService;
-	
-	public void setInfoChangeService(
-			UserInfoChangeService userInfoChangeService) {
+	public UserInfoController(UserInfoChangeService userInfoChangeService, UserInfoFindService userInfoFindService) {
+		super();
 		this.userInfoChangeService = userInfoChangeService;
-	}
-	
-	
-	public void setUserFindInfoService(
-		UserInfoFindService userInfoFindService) {
 		this.userInfoFindService = userInfoFindService;
 	}
-	
+
 	// 회원정보 변경 요청 처리
 	
 	@GetMapping("/changePassword")
